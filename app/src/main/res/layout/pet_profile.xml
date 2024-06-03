@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/petProfile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PetProfile"
+    android:background="#ececec">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="441dp"
+                android:layout_height="890dp">
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="519dp"
+                    android:layout_height="382dp"
+                    app:srcCompat="@drawable/bg"
+                    tools:layout_editor_absoluteX="-59dp"
+                    tools:layout_editor_absoluteY="-45dp" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pet Name"
+                    android:textColor="#ffffff"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="150dp"
+                    tools:layout_editor_absoluteY="50dp" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Type"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="186dp"
+                    tools:layout_editor_absoluteY="110dp" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Breed"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="182dp"
+                    tools:layout_editor_absoluteY="145dp" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gender"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="177dp"
+                    tools:layout_editor_absoluteY="180dp" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DOB"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="270dp"
+                    tools:layout_editor_absoluteY="86dp" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Age"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="270dp"
+                    tools:layout_editor_absoluteY="57dp" />
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Color"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="185dp"
+                    tools:layout_editor_absoluteY="210dp" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="358dp"
+                    android:layout_height="148dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="60dp"
+                    android:background="@drawable/white_card_bg"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView7">
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="146dp">
+
+                        <TextView
+                            android:id="@+id/textView10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Owner Details"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            tools:layout_editor_absoluteX="116dp"
+                            tools:layout_editor_absoluteY="25dp" />
+
+                        <TextView
+                            android:id="@+id/textView11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Owner's name"
+                            tools:layout_editor_absoluteX="33dp"
+                            tools:layout_editor_absoluteY="72dp" />
+
+                        <TextView
+                            android:id="@+id/textView12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Owner's phone\nnumber"
+                            tools:layout_editor_absoluteX="228dp"
+                            tools:layout_editor_absoluteY="72dp" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="358dp"
+                    android:layout_height="255dp"
+                    android:background="@drawable/white_card_bg"
+                    android:orientation="vertical"
+                    tools:layout_editor_absoluteX="24dp"
+                    tools:layout_editor_absoluteY="443dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Medical History"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            tools:layout_editor_absoluteX="109dp"
+                            tools:layout_editor_absoluteY="32dp" />
+
+                        <TextView
+                            android:id="@+id/textView15"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pet's health issues"
+                            tools:layout_editor_absoluteX="35dp"
+                            tools:layout_editor_absoluteY="81dp" />
+
+                        <TextView
+                            android:id="@+id/textView17"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Date"
+                            tools:layout_editor_absoluteX="259dp"
+                            tools:layout_editor_absoluteY="81dp" />
+
+                        <View
+                            android:id="@+id/view"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#818181"
+                            tools:layout_editor_absoluteX="87dp"
+                            tools:layout_editor_absoluteY="127dp" />
+
+                        <TextView
+                            android:id="@+id/textView16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Current Medications"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            tools:layout_editor_absoluteX="87dp"
+                            tools:layout_editor_absoluteY="150dp" />
+
+                        <TextView
+                            android:id="@+id/textView18"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Meds name"
+                            tools:layout_editor_absoluteX="37dp"
+                            tools:layout_editor_absoluteY="204dp" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="355dp"
+                    android:layout_height="52dp"
+                    android:background="#3F51B5"
+                    android:text="Edit"
+                    app:cornerRadius="20dp"
+                    tools:layout_editor_absoluteX="27dp"
+                    tools:layout_editor_absoluteY="822dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
