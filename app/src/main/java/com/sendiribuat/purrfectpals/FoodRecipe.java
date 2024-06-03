@@ -4,13 +4,13 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class PetProfile  extends AppCompatActivity {
+public class FoodRecipe extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pet_profile);
-        getSupportActionBar().setTitle("Pet Profile");
+        setContentView(R.layout.food_recipe);
+        getSupportActionBar().setTitle("Food Recipe");
     }
 }

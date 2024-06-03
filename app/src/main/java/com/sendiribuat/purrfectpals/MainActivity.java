@@ -31,4 +31,8 @@ public class MainActivity extends AppCompatActivity {
     public void openPetProfile(View view) {
         startActivity(new Intent(this, PetProfile.class));
     }
+
+    public void openFoodRecipe(View view) {
+        startActivity(new Intent(this, FoodRecipe.class));
+    }
 }
