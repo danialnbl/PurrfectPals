@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "333829219266",
+    "project_id": "purrfect-pals-e5ca8",
+    "storage_bucket": "purrfect-pals-e5ca8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:333829219266:android:f62faf8963a6d175872c5b",
+        "android_client_info": {
+          "package_name": "com.sendiribuat.purrfectpals"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9N4LkmCdo_N-l7M4rLFXB-Htwx7GDj8o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
