@@ -81,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void openLogin(View view) {
+    public void openLogin(View view) {
         Intent next = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(next);
         finish();
