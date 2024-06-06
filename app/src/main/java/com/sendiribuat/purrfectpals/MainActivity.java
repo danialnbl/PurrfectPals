@@ -25,16 +25,5 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         finish();
 
-        //getSupportActionBar().setTitle("Main Page");
-    }
-
-
-
-    public void openPetProfile(View view) {
-        startActivity(new Intent(this, PetProfile.class));
-    }
-
-    public void openFoodRecipe(View view) {
-        startActivity(new Intent(this, FoodRecipe.class));
     }
 }

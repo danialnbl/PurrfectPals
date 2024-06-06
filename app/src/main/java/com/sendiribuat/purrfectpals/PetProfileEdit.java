@@ -6,18 +6,18 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class PetProfile  extends AppCompatActivity {
+public class PetProfileEdit  extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_petprofile);
-        getSupportActionBar().setTitle("Pet Profile");
+        setContentView(R.layout.activity_petprofileedit);
+        getSupportActionBar().setTitle("Edit Pet Profile");
     }
 
-    public void openPetProfileEdit(View view) {
-        Intent next = new Intent(getApplicationContext(), PetProfileEdit.class);
+    public void openPetProfile(View view) {
+        Intent next = new Intent(getApplicationContext(), PetProfile.class);
         startActivity(next);
         finish();
     }

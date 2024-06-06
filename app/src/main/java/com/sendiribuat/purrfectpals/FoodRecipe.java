@@ -1,6 +1,8 @@
 package com.sendiribuat.purrfectpals;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,7 +12,13 @@ public class FoodRecipe extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.food_recipe);
+        setContentView(R.layout.activity_foodrecipe);
         getSupportActionBar().setTitle("Food Recipe");
+    }
+
+    public void openFoodRecipeView(View view) {
+        Intent next = new Intent(getApplicationContext(), FoodRecipeView.class);
+        startActivity(next);
+        finish();
     }
 }
