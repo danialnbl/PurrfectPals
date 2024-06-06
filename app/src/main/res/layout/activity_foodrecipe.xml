@@ -20,7 +20,17 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="733dp">
+
+                <Button
+                    android:id="@+id/buttonAdd"
+                    android:layout_width="351dp"
+                    android:layout_height="53dp"
+                    android:text="Add New Recipe"
+                    android:onClick="openFoodRecipeAdd"
+                    android:backgroundTint="@color/my_primary"
+                    tools:layout_editor_absoluteX="26dp"
+                    tools:layout_editor_absoluteY="669dp" />
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -29,9 +39,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
                         android:layout_marginTop="-20dp"
-                        android:background="@drawable/black_card_bg">
+                        android:background="@drawable/black_card_bg"
+                        android:orientation="vertical">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -63,19 +73,46 @@
 
                 <ScrollView
                     android:layout_width="350dp"
-                    android:layout_height="520dp"
+                    android:layout_height="480dp"
                     tools:layout_editor_absoluteX="27dp"
                     tools:layout_editor_absoluteY="180dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="460dp"
-                        android:orientation="vertical" >
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textViewNoRecipe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="No recipe added.."
+                            android:visibility="gone"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:textSize="18sp"
+                            android:textColor="@android:color/black"
+                            android:layout_gravity="center"
+                            android:layout_margin="16dp"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerViewRecipes"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            app:layout_constraintTop_toBottomOf="@id/buttonAdd"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_margin="16dp" />
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/cardViewNoRecipe"
                             android:layout_width="match_parent"
                             android:layout_height="140dp"
-                            app:cardCornerRadius="28dp">
+                            app:cardCornerRadius="28dp"
+                            android:visibility="gone">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -100,9 +137,9 @@
                                         android:id="@+id/buttonView"
                                         android:layout_width="155dp"
                                         android:layout_height="49dp"
-                                        android:text="View"
-                                        android:onClick="openFoodRecipeView"
                                         android:backgroundTint="@color/my_primary"
+                                        android:onClick="openFoodRecipeView"
+                                        android:text="View"
                                         tools:layout_editor_absoluteX="16dp"
                                         tools:layout_editor_absoluteY="65dp" />
 
