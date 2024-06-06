@@ -52,6 +52,7 @@
                                 android:layout_height="48dp"
                                 android:backgroundTint="@color/my_primary"
                                 android:text="Save"
+                                android:onClick="saveProfile"
                                 tools:layout_editor_absoluteX="289dp"
                                 tools:layout_editor_absoluteY="106dp" />
 
