@@ -13,13 +13,13 @@
         android:theme="@style/Theme.PurrfectPals"
         tools:targetApi="31">
         <activity
+            android:name=".VaccinationActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,8 +28,19 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".MainActivity"
+            android:exported="false">
+        </activity>
+        <activity
             android:name=".FoodRecipe"
             android:exported="true" />
+        <activity
+            android:name=".PetProfile"
+            android:exported="false"/>
+        <activity
+            android:name=".PetProfileEdit"
+            android:exported="false"
+            />
     </application>
 
 </manifest>

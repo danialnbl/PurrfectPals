@@ -23,7 +23,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText regNameET, regUnameET, regEmailET, regPassET;
     Button regBtn;
     FirebaseAuth mAuth;
-    FirebaseDatabase db;
+    FirebaseDbHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
             return insets;
         });
         mAuth = FirebaseAuth.getInstance();
-        db = FirebaseDatabase.getInstance(Constant.FIREBASE_DB_INSTANCE);
+        db = new FirebaseDbHelper(this);
         regNameET = findViewById(R.id.regNameET);
         regUnameET = findViewById(R.id.regUnameET);
         regEmailET = findViewById(R.id.regEmailET);
@@ -56,19 +56,10 @@ public class RegisterActivity extends AppCompatActivity {
                 FirebaseUser firebaseUser = mAuth.getCurrentUser();
                 String userId = firebaseUser.getUid();
                 User user = new User(name, username, email);
-
-                DatabaseReference usersRef = db.getReference("users");
-                usersRef.child(userId).setValue(user)
-                        .addOnCompleteListener(task1 -> {
-                            if (task1.isSuccessful()) {
-                                Toast.makeText(RegisterActivity.this, "Registration successful!", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                                finish();
-                            }
-                            else {
-                                Toast.makeText(RegisterActivity.this, "Failed to register. Please try again.", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                if(db.insertUser(user, userId)) {
+                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                    finish();
+                }
             }
             else {
                 if (task.getException() instanceof FirebaseAuthUserCollisionException) {
