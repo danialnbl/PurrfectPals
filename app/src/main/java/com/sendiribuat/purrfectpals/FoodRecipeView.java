@@ -16,18 +16,18 @@ public class FoodRecipeView  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_foodrecipeview);
+        setContentView(R.layout.activity_foodrecipeview2);
         getSupportActionBar().setTitle("View Food Recipe");
 
-        textRecipeName = findViewById(R.id.textRecipeName);
-        textRecipe = findViewById(R.id.textRecipe);
-
-        Recipe recipe = (Recipe) getIntent().getSerializableExtra("recipe");
-
-        if (recipe != null) {
-            textRecipeName.setText(recipe.getRecipeName());
-            textRecipe.setText(recipe.getRecipeItemsAsString());
-        }
+//        textRecipeName = findViewById(R.id.textRecipeName);
+//        textRecipe = findViewById(R.id.textRecipe);
+//
+//        Recipe recipe = (Recipe) getIntent().getSerializableExtra("recipe");
+//
+//        if (recipe != null) {
+//            textRecipeName.setText(recipe.getRecipeName());
+//            textRecipe.setText(recipe.getRecipeItemsAsString());
+//        }
     }
 
     public void openFoodRecipe(View view) {

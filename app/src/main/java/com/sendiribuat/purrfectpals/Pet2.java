@@ -10,6 +10,10 @@ public class Pet2 {
 
     private int PetAge;
 
+    public Pet2 () {
+
+    }
+
     public Pet2(String petName, String petAnimalType, String petBreed, String petGender, String petColor, String ownerName, String ownerNum, String ownerEmail, String userId, int petAge) {
         PetName = petName;
         PetAnimalType = petAnimalType;

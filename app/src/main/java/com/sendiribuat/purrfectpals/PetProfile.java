@@ -88,6 +88,14 @@ public class PetProfile  extends AppCompatActivity {
 
         //displayPetData(pet);
 
+        // Initialize ListViews and Adapters
+        medHistoryList = findViewById(R.id.petMedHistoryList);
+        medicationList = findViewById(R.id.petMedicationList);
+        medHistoryAdapter = new PetProfileMedicalAdapter(this, medicalHistory);
+        medicationAdapter = new PetProfileMedicationAdapter(this, medication);
+        medHistoryList.setAdapter(medHistoryAdapter);
+        medicationList.setAdapter(medicationAdapter);
+
 //        medicals = findViewById(R.id.petMedHistoryList);
 //        ArrayList<PetProfileMedical> medicalList = new ArrayList<>();
 //        medicalList.add(new PetProfileMedical("Test", "13/06/2002", "123"));
@@ -102,14 +110,6 @@ public class PetProfile  extends AppCompatActivity {
 //        medicationList.add(new PetProfileMedication("Test", "10mg", "123"));
 //        medicationList.add(new PetProfileMedication("Test", "10mg", "123"));
 //        medications.setAdapter(new PetProfileMedicationAdapter(this, medicationList));
-
-        // Initialize ListViews and Adapters
-        medHistoryList = findViewById(R.id.petMedHistoryList);
-        medicationList = findViewById(R.id.petMedicationList);
-        medHistoryAdapter = new PetProfileMedicalAdapter(this, medicalHistory);
-        medicationAdapter = new PetProfileMedicationAdapter(this, medication);
-        medHistoryList.setAdapter(medHistoryAdapter);
-        medicationList.setAdapter(medicationAdapter);
 
         editProfileBtn = findViewById(R.id.editProfileBtn);
         db = new FirebaseDbHelper(this);

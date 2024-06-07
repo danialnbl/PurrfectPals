@@ -26,42 +26,42 @@ public class FoodRecipeAdd extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_foodrecipeadd);
-        getSupportActionBar().setTitle("Add Food Recipe");
-
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseDatabase.getInstance(Constant.FIREBASE_DB_INSTANCE);
-        database = db.getReference("recipes");
-
-        editTextRecipeName = findViewById(R.id.editTextRecipeName);
-        editTextRecipeItem = findViewById(R.id.editTextRecipeItem);
+        setContentView(R.layout.activity_foodrecipeadd2);
+//        getSupportActionBar().setTitle("Add Food Recipe");
+//
+//        mAuth = FirebaseAuth.getInstance();
+//        db = FirebaseDatabase.getInstance(Constant.FIREBASE_DB_INSTANCE);
+//        database = db.getReference("recipes");
+//
+//        editTextRecipeName = findViewById(R.id.editTextRecipeName);
+//        editTextRecipeItem = findViewById(R.id.editTextRecipeItem);
     }
 
-    public void saveRecipe(View view) {
-        String recipeName = editTextRecipeName.getText().toString().trim();
-        String recipeItemsString = editTextRecipeItem.getText().toString().trim();
-
-        if (!recipeName.isEmpty() && !recipeItemsString.isEmpty()) {
-            // Split the recipe items string into a list
-            List<String> recipeItemsList = Arrays.asList(recipeItemsString.split("\\s*,\\s*"));
-
-            // Generate a unique key for the recipe
-            String recipeId = database.push().getKey();
-
-            // Create a new Recipe object
-            Recipe recipe = new Recipe(recipeId, recipeName, recipeItemsList);
-
-            // Save the recipe to the database
-            database.child(recipeId).setValue(recipe);
-
-            // Navigate back to the FoodRecipe activity
-            finish();
-        }
-    }
-
-    public void openFoodRecipe(View view) {
-        Intent next = new Intent(getApplicationContext(), FoodRecipe.class);
-        startActivity(next);
-        finish();
-    }
+//    public void saveRecipe(View view) {
+//        String recipeName = editTextRecipeName.getText().toString().trim();
+//        String recipeItemsString = editTextRecipeItem.getText().toString().trim();
+//
+//        if (!recipeName.isEmpty() && !recipeItemsString.isEmpty()) {
+//            // Split the recipe items string into a list
+//            List<String> recipeItemsList = Arrays.asList(recipeItemsString.split("\\s*,\\s*"));
+//
+//            // Generate a unique key for the recipe
+//            String recipeId = database.push().getKey();
+//
+//            // Create a new Recipe object
+//            Recipe recipe = new Recipe(recipeId, recipeName, recipeItemsList);
+//
+//            // Save the recipe to the database
+//            database.child(recipeId).setValue(recipe);
+//
+//            // Navigate back to the FoodRecipe activity
+//            finish();
+//        }
+//    }
+//
+//    public void openFoodRecipe(View view) {
+//        Intent next = new Intent(getApplicationContext(), FoodRecipe.class);
+//        startActivity(next);
+//        finish();
+//    }
 }
