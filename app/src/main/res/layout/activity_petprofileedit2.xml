@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="28dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="6dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update Pet Profile"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="5dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Pet Name"
+            android:id="@+id/inputPetName"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pet Type"/>
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Pet Type"
+            android:id="@+id/inputPetType"
+            android:layout_marginBottom="5dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Pet Breed"
+            android:id="@+id/inputPetBreed"
+            android:layout_marginBottom="5dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Pet Age"
+            android:id="@+id/inputPetAge"
+            android:layout_marginBottom="5dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Pet Gender"
+            android:id="@+id/inputPetGender"
+            android:layout_marginBottom="5dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Pet Color"
+            android:id="@+id/inputPetColor"
+            android:layout_marginBottom="5dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Owner Name"
+            android:id="@+id/inputOwnerName"
+            android:layout_marginBottom="5dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Owner Number"
+            android:id="@+id/inputOwnerNumber"
+            android:layout_marginBottom="5dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Owner Email"
+            android:id="@+id/inputOwnerEmail"
+            android:layout_marginBottom="5dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Medical History - Illness"
+            android:id="@+id/inputIllness"
+            android:layout_marginBottom="5dp"/>
+        <EditText
+            android:id="@+id/inputIllnessDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Medical History - Illness Date"
+            android:inputType="date"
+            android:layout_marginBottom="5dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Medication Name"
+            android:id="@+id/inputMedication"
+            android:layout_marginBottom="5dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Dosage"
+            android:id="@+id/inputDosage"
+            android:layout_marginBottom="5dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:layout_gravity="end"
+            android:id="@+id/editBtn"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
