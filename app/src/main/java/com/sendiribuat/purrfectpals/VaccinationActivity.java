@@ -43,11 +43,19 @@ public class VaccinationActivity extends AppCompatActivity {
         });
 
         schedules = findViewById(R.id.vScheduleList);
-        List<VaccinationSchedule> scheduleList = new ArrayList<>();
+        ArrayList<VaccinationSchedule> scheduleList = new ArrayList<>();
+        scheduleList.add(new VaccinationSchedule("Test", "PetTest", "13/06/2002", "123"));
+        scheduleList.add(new VaccinationSchedule("Test", "PetTest", "13/06/2002", "123"));
+        scheduleList.add(new VaccinationSchedule("Test", "PetTest", "13/06/2002", "123"));
+        scheduleList.add(new VaccinationSchedule("Test", "PetTest", "13/06/2002", "123"));
         schedules.setAdapter(new VaccinationScheduleAdapter(this, scheduleList));
 
         records = findViewById(R.id.vRecordList);
-        List<VaccinationRecord> recordsList = new ArrayList<>();
+        ArrayList<VaccinationRecord> recordsList = new ArrayList<>();
+        recordsList.add(new VaccinationRecord("Test", "PetTest", "Location", "13/06/2002", "123"));
+        recordsList.add(new VaccinationRecord("Test", "PetTest", "Location", "13/06/2002", "123"));
+        recordsList.add(new VaccinationRecord("Test", "PetTest", "Location", "13/06/2002", "123"));
+        recordsList.add(new VaccinationRecord("Test", "PetTest", "Location", "13/06/2002", "123"));
         records.setAdapter(new VaccinationRecordAdapter(this, recordsList));
 
         addSchedule = findViewById(R.id.addScheduleBtn);
@@ -57,6 +65,10 @@ public class VaccinationActivity extends AppCompatActivity {
         user = mAuth.getCurrentUser();
 
         Dialog dialog = new Dialog(this);
+        addSchedule.setOnClickListener(v -> {
+            dialog.setContentView(R.layout.add_vaccine_schedule);
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        });
         addRec.setOnClickListener(v -> {
             dialog.setContentView(R.layout.add_vaccine_record);
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -82,6 +94,11 @@ public class VaccinationActivity extends AppCompatActivity {
                 db.insertVaccineRecord(rec);
                 dialog.dismiss();
             });
+            dialog.show();
         });
+    }
+
+    public void toBack(View view) {
+        finish();
     }
 }

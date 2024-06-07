@@ -22,7 +22,8 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="28dp"
         android:layout_marginTop="-25dp"
-        android:id="@+id/dashboardTitle">
+        android:id="@+id/dashboardTitle"
+        android:backgroundTint="#F9F9F9">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,6 +41,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Welcome, {user}"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
                     android:layout_gravity="center"
                     android:id="@+id/welcomeTxt"/>
                 <View
@@ -56,8 +59,10 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/logout_24px"
+                    android:background="@null"
                     android:layout_gravity="end"
-                    android:onClick="logoutUser"/>
+                    android:onClick="logoutUser"
+                    app:tint="@color/my_primary" />
             </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
@@ -81,7 +86,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Vaccine"/>
+            android:text="Vaccine"
+            android:layout_marginBottom="5dp"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -90,8 +98,10 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
                 android:layout_height="100dp"
-                app:cardCornerRadius="28dp"
-                android:onClick="toVaccine">
+                app:cardCornerRadius="18dp"
+                android:onClick="toVaccine"
+                android:backgroundTint="@color/my_primary">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -100,7 +110,8 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/vaccines_24px"/>
+                        android:src="@drawable/vaccines_24px"
+                        app:tint="@color/white"/>
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
@@ -109,14 +120,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Vaccine Schedule and Record"
-                        android:layout_gravity="end"/>
+                        android:layout_gravity="end"
+                        android:textColor="@color/white"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pets"/>
+            android:text="Pets"
+            android:layout_marginBottom="5dp"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -125,9 +140,10 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
                 android:layout_height="100dp"
-                app:cardCornerRadius="28dp"
+                app:cardCornerRadius="18dp"
                 android:onClick="toPetProfile"
-                android:layout_marginEnd="10dp">
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/my_primary">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -136,7 +152,8 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/pets_24px"/>
+                        android:src="@drawable/pets_24px"
+                        app:tint="@color/white"/>
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
@@ -145,14 +162,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Pet Profile"
-                        android:layout_gravity="end"/>
+                        android:layout_gravity="end"
+                        android:textColor="@color/white"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
                 android:layout_height="100dp"
-                app:cardCornerRadius="28dp"
-                android:onClick="toPetSchedule">
+                app:cardCornerRadius="18dp"
+                android:onClick="toPetSchedule"
+                android:backgroundTint="@color/my_primary">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -161,7 +180,8 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/event_note_24px"/>
+                        android:src="@drawable/event_note_24px"
+                        app:tint="@color/white"/>
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
@@ -170,14 +190,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Pet Schedule"
-                        android:layout_gravity="end"/>
+                        android:layout_gravity="end"
+                        android:textColor="@color/white"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Food"/>
+            android:text="Food"
+            android:layout_marginBottom="5dp"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -185,9 +209,10 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
                 android:layout_height="100dp"
-                app:cardCornerRadius="28dp"
+                app:cardCornerRadius="18dp"
                 android:onClick="toFoodRecipe"
-                android:layout_marginEnd="10dp">
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/my_primary">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -196,7 +221,8 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/menu_book_24px"/>
+                        android:src="@drawable/menu_book_24px"
+                        app:tint="@color/white"/>
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
@@ -205,14 +231,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Food Recipe"
-                        android:layout_gravity="end"/>
+                        android:layout_gravity="end"
+                        android:textColor="@color/white"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
                 android:layout_height="100dp"
-                app:cardCornerRadius="28dp"
-                android:onClick="toFeedingSchedule">
+                app:cardCornerRadius="18dp"
+                android:onClick="toFeedingSchedule"
+                android:backgroundTint="@color/my_primary">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -221,7 +249,8 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/restaurant_24px"/>
+                        android:src="@drawable/restaurant_24px"
+                        app:tint="@color/white"/>
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
@@ -230,7 +259,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Feeding Schedule"
-                        android:layout_gravity="end"/>
+                        android:layout_gravity="end"
+                        android:textColor="@color/white"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
