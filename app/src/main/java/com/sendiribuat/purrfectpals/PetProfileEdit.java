@@ -3,9 +3,11 @@ package com.sendiribuat.purrfectpals;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -17,55 +19,61 @@ import com.google.firebase.database.ValueEventListener;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 public class PetProfileEdit  extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
-    private FirebaseDatabase db;
-    private DatabaseReference userRef;
+    DatabaseReference dbRef;
+    FirebaseDbHelper db;
 
-    private EditText editTextPetName, editTextPetAge, editTextPetType, editTextPetBreed, editTextPetGender, editTextPetColor, editTextOwnerName, editTextOwnerNum, editTextPetIllness, editTextIllnessDate, editTextPetMedication, editTextPetDosage;
+    FirebaseDatabase fd;
+    FirebaseAuth mAuth;
+    FirebaseUser user;
+
+    Button saveProfileBtn;
+
+    private EditText inputPetName, inputPetAge, inputPetType, inputPetBreed, inputPetGender, inputPetColor, inputOwnerName, inputOwnerNum, inputOwnerEmail, inputIllness, inputIllnessDate, inputMedication, inputDosage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+//        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_petprofileedit2);
-//        getSupportActionBar().setTitle("Edit Pet Profile");
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+//            return insets;
+//        });
 
-//        mAuth = FirebaseAuth.getInstance();
-//        db = FirebaseDatabase.getInstance("https://your-database-url");
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//
-//        if (currentUser != null) {
-//            DatabaseReference userUsernameRef = db.getReference("users").child(currentUser.getUid()).child("username");
-//            userUsernameRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                    if (snapshot.exists()) {
-//                        String username = snapshot.getValue(String.class);
-//                        userRef = db.getReference("users").child(username);
-//                        initializeViews();
-//                        fetchProfileData();
-//                    } else {
-//                        // Handle the case where username is not found
-//                        // For example, you could prompt the user to set up their username
-//                        // or navigate them to a screen where they can do so.
-//                        Toast.makeText(PetProfileEdit.this, "Username not found. Please set up your username.", Toast.LENGTH_SHORT).show();
-//
-//                        // You might also consider navigating the user to a username setup activity
-//                        // or any other appropriate action for your app.
-//                    }
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError error) {
-//                    // Handle error
-//                    // Display an error message to the user or log the error for debugging
-//                    Toast.makeText(PetProfileEdit.this, "Error fetching username: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        }
+        mAuth = FirebaseAuth.getInstance();
+        db = new FirebaseDbHelper(this);
+//        fd = FirebaseDatabase.getInstance("https://purrfect-pals-e5ca8-default-rtdb.asia-southeast1.firebasedatabase.app");
+        user = mAuth.getCurrentUser();
+
+        if (user != null) {
+            dbRef = FirebaseDatabase.getInstance().getReference("Pet2").child(user.getUid());
+        }
+
+// Initialize EditTexts
+        inputPetName = findViewById(R.id.inputPetName);
+        inputPetAge = findViewById(R.id.inputPetAge);
+        inputPetType = findViewById(R.id.inputPetType);
+        inputPetBreed = findViewById(R.id.inputPetBreed);
+        inputPetGender = findViewById(R.id.inputPetGender);
+        inputPetColor = findViewById(R.id.inputPetColor);
+        inputOwnerName = findViewById(R.id.inputOwnerName);
+        inputOwnerNum = findViewById(R.id.inputOwnerNumber);
+        inputOwnerEmail = findViewById(R.id.inputOwnerEmail);
+
+        // Initialize Save Button
+        saveProfileBtn = findViewById(R.id.saveProfileBtn);
+        saveProfileBtn.setOnClickListener(v -> saveProfile());
+
+        // Retrieve current data for editing
+        retrieveDataForEditing();
     }
 //
 //    private void initializeViews() {
@@ -149,4 +157,68 @@ public class PetProfileEdit  extends AppCompatActivity {
 //        startActivity(next);
 //        finish();
 //    }
+
+
+    private void retrieveDataForEditing() {
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Pet2 pet = dataSnapshot.getValue(Pet2.class);
+                    if (pet != null) {
+                        inputPetName.setText(pet.getPetName());
+                        inputPetAge.setText(pet.getPetAge());
+                        inputPetType.setText(pet.getPetAnimalType());
+                        inputPetBreed.setText(pet.getPetBreed());
+                        inputPetGender.setText(pet.getPetGender());
+                        inputPetColor.setText(pet.getPetColor());
+                        inputOwnerName.setText(pet.getOwnerName());
+                        inputOwnerNum.setText(pet.getOwnerNum());
+                        inputOwnerEmail.setText(pet.getOwnerEmail());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle database error
+            }
+        });
+    }
+
+    private void saveProfile() {
+        String petName = inputPetName.getText().toString().trim();
+        String petAge = inputPetAge.getText().toString().trim();
+        String petType = inputPetType.getText().toString().trim();
+        String petBreed = inputPetBreed.getText().toString().trim();
+        String petGender = inputPetGender.getText().toString().trim();
+        String petColor = inputPetColor.getText().toString().trim();
+        String ownerName = inputOwnerName.getText().toString().trim();
+        String ownerNum = inputOwnerNum.getText().toString().trim();
+        String ownerEmail = inputOwnerEmail.getText().toString().trim();
+
+//        Pet2 pet = new Pet2(petName, petType, petBreed, petGender, petColor, ownerName, ownerNum, ownerEmail, "123", petAge);
+        Pet2 pet = new Pet2("Buddy", "Dog", "Golden Retriever", "Male", "Golden", "Nis", "0132406975", "hanis@gmail.com", "123", 3);
+        pet.setUserId(pet.getUserId());
+        pet.setPetName(petName);
+//        pet.setPetAge(petAge);
+        pet.setPetAge(Integer.parseInt(petAge));
+        pet.setPetAnimalType(petType);
+        pet.setPetBreed(petBreed);
+        pet.setPetGender(petGender);
+        pet.setPetColor(petColor);
+        pet.setOwnerName(ownerName);
+        pet.setOwnerNum(ownerNum);
+        pet.setOwnerEmail(ownerEmail);
+
+        dbRef.setValue(pet).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(PetProfileEdit.this, "Profile updated", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(PetProfileEdit.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }

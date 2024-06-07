@@ -1,8 +1,12 @@
 package com.sendiribuat.purrfectpals;
 
+import java.util.List;
+
 public class Pet2 {
 
     private String PetName, PetAnimalType, PetBreed, PetGender, PetColor, OwnerName, OwnerNum, OwnerEmail, UserId;
+    private List<PetProfileMedical> medicalHistory;
+    private List<PetProfileMedication> medications;
 
     private int PetAge;
 
@@ -98,5 +102,22 @@ public class Pet2 {
 
     public void setOwnerEmail(String ownerEmail) {
         OwnerEmail = ownerEmail;
+    }
+
+
+    public List<PetProfileMedical> getMedicalHistory() {
+        return medicalHistory;
+    }
+
+    public void setMedicalHistory(List<PetProfileMedical> medicalHistory) {
+        this.medicalHistory = medicalHistory;
+    }
+
+    public List<PetProfileMedication> getMedications() {
+        return medications;
+    }
+
+    public void setMedications(List<PetProfileMedication> medications) {
+        this.medications = medications;
     }
 }
