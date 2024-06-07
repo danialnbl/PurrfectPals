@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toFeedingSchedule(View view) {
-        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        startActivity(new Intent(getApplicationContext(), FeedTracking.class));
     }
 
     public void logoutUser(View view) {
