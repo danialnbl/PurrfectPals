@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toPetSchedule(View view) {
-        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        startActivity(new Intent(getApplicationContext(), PetSchedule.class));
     }
 
     public void toFoodRecipe(View view) {
