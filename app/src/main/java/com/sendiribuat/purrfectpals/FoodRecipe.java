@@ -98,7 +98,7 @@ public class FoodRecipe extends AppCompatActivity {
             }
         });
     }
- 
+
     public void openFoodRecipeAdd(View view) {
         Intent next = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(next);

@@ -77,8 +77,8 @@ public class PetProfile  extends AppCompatActivity {
         petBreed = findViewById(R.id.petBreed);
         petGender = findViewById(R.id.petGender);
         petColor = findViewById(R.id.petColor);
-        ownerName = findViewById(R.id.ownerName);
-        ownerNum = findViewById(R.id.ownerNum);
+        //ownerName = findViewById(R.id.ownerName);
+        //ownerNum = findViewById(R.id.ownerNum);
 
         Pet pet = new Pet("Buddy", "Dog", "Golden Retriever", "Male", "Golden", "Nis", "0132406975", "hanis@gmail.com", "123", 3);
 
@@ -90,9 +90,6 @@ public class PetProfile  extends AppCompatActivity {
         medicationList.setAdapter(medicationAdapter);
 
         editProfileBtn = findViewById(R.id.editProfileBtn);
-//        db = new FirebaseDbHelper(this);
-//        mAuth = FirebaseAuth.getInstance();
-//        user = mAuth.getCurrentUser();
 
         // Set up Edit Profile button
         editProfileBtn = findViewById(R.id.editProfileBtn);
@@ -112,12 +109,12 @@ public class PetProfile  extends AppCompatActivity {
                             petName.setText(pet.getPetName());
                             petType.setText(pet.getPetAnimalType());
                             petBreed.setText(pet.getPetBreed());
-                            petAge.setText(pet.getPetAge());
+                            petAge.setText(String.valueOf(pet.getPetAge()));
                             petGender.setText(pet.getPetGender());
                             petColor.setText(pet.getPetColor());
-                            ownerName.setText(pet.getOwnerName());
-                            ownerNum.setText(pet.getOwnerNum());
-                            ownerEmail.setText(pet.getOwnerEmail());
+//                            ownerName.setText(pet.getOwnerName());
+//                            ownerNum.setText(pet.getOwnerNum());
+//                            ownerEmail.setText(pet.getOwnerEmail());
 
                             // Update medical history
                             if (pet.getMedicalHistory() != null) {
@@ -144,21 +141,6 @@ public class PetProfile  extends AppCompatActivity {
         });
     }
 
-
-
-
-//    private void displayPetData(Pet2 pet) {
-//        userId.setText(pet.getUserId());
-//        petName.setText(pet.getPetName());
-//        petAge.setText(String.valueOf(pet.getPetAge()));
-//        petType.setText(pet.getPetAnimalType());
-//        petBreed.setText(pet.getPetBreed());
-//        petGender.setText(pet.getPetGender());
-//        petColor.setText(pet.getPetColor());
-//        ownerName.setText(pet.getOwnerName());
-//        ownerNum.setText(pet.getOwnerNum());
-//        ownerEmail.setText(pet.getOwnerEmail());
-//    }
 
     public void toBack(View view) {
         Intent next = new Intent(getApplicationContext(), MainActivity.class);
