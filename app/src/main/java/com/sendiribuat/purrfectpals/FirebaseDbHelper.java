@@ -3,6 +3,8 @@ package com.sendiribuat.purrfectpals;
 import android.content.Context;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -119,6 +121,10 @@ public class FirebaseDbHelper {
         ref = db.getReference("vaccine_schedules");
         ref.child(key).removeValue();
     }
+    public void getVaccineSchedules(String userId, final ValueEventListener listener) {
+        ref = db.getReference("vaccine_schedules");
+        ref.orderByChild("UserId").equalTo(userId).addListenerForSingleValueEvent(listener);
+    }
 
     public void insertVaccineRecord(VaccinationRecord record) {
         ref = db.getReference("vaccine_records");
@@ -148,6 +154,11 @@ public class FirebaseDbHelper {
                 Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void getVaccineRecords(String userId, final ValueEventListener listener) {
+        ref = db.getReference("vaccine_records");
+        ref.orderByChild("userId").equalTo(userId).addListenerForSingleValueEvent(listener);
     }
 
     public interface OnPetNamesLoadedListener {

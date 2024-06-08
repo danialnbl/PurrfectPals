@@ -5,6 +5,7 @@ import com.google.firebase.database.Exclude;
 public class VaccinationSchedule {
     private String Key, Title, PetName, Date, UserId;
 
+    public VaccinationSchedule(){}
     public VaccinationSchedule(String key, String title, String petName, String date, String userId) {
         Key = key;
         Title = title;

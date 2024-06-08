@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -21,6 +22,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +37,7 @@ public class VaccinationActivity extends AppCompatActivity {
     Button addSchedule, addRec;
     EditText type, location, date;
     Spinner pet;
-    ArrayList<String> petNames;
+    ArrayList<String> petNames = new ArrayList<>();
     ArrayList<VaccinationSchedule> scheduleList = new ArrayList<>();
     ArrayList<VaccinationRecord> recordsList = new ArrayList<>();
 
@@ -51,27 +55,12 @@ public class VaccinationActivity extends AppCompatActivity {
         db = new FirebaseDbHelper(this);
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-        db.getPets(user.getUid(), new FirebaseDbHelper.OnPetNamesLoadedListener() {
-            @Override
-            public void onPetNamesLoaded(ArrayList<String> petNameArray) {
-                petNames = petNameArray;
-            }
-            @Override
-            public void onLoadFailed(String errorMessage) {
-                Toast.makeText(getApplicationContext(), "Failed to load pet names: " + errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
 
         schedules = findViewById(R.id.vScheduleList);
         records = findViewById(R.id.vRecordList);
-        scheduleList.add(new VaccinationSchedule("Test", "PetTest", "13/06/2002", "123"));
-        scheduleList.add(new VaccinationSchedule("Test", "PetTest", "13/06/2002", "123"));
-        scheduleList.add(new VaccinationSchedule("Test", "PetTest", "13/06/2002", "123"));
-        scheduleList.add(new VaccinationSchedule("Test", "PetTest", "13/06/2002", "123"));
-        recordsList.add(new VaccinationRecord("Test", "PetTest", "Location", "13/06/2002", "123"));
-        recordsList.add(new VaccinationRecord("Test", "PetTest", "Location", "13/06/2002", "123"));
-        recordsList.add(new VaccinationRecord("Test", "PetTest", "Location", "13/06/2002", "123"));
-        recordsList.add(new VaccinationRecord("Test", "PetTest", "Location", "13/06/2002", "123"));
+
+
+        initListView();
         schedules.setOnItemClickListener((parent, view, position, id) -> {
             TextView schTitle = view.findViewById(R.id.scheduleTitle);
             TextView schDate = view.findViewById(R.id.scheduleDate);
@@ -90,6 +79,7 @@ public class VaccinationActivity extends AppCompatActivity {
             scheDate.setText(schDate.getText().toString());
             scheKey.setText(schKey.getText().toString());
 
+            populatePetNames();
             ArrayAdapter<String> petAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, petNames);
             petAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             schePet.setAdapter(petAdapter);
@@ -115,7 +105,8 @@ public class VaccinationActivity extends AppCompatActivity {
             TextView recDate = view.findViewById(R.id.recordDate);
             TextView recKey = view.findViewById(R.id.recKey);
 
-            dialog.setContentView(R.layout.edit_vac_schedule);
+            populatePetNames();
+            dialog.setContentView(R.layout.edit_vac_record);
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             Button submit = dialog.findViewById(R.id.recAddBtn);
             Button delete = dialog.findViewById(R.id.recRemoveBtn);
@@ -124,10 +115,13 @@ public class VaccinationActivity extends AppCompatActivity {
             EditText vacDate = dialog.findViewById(R.id.recDate);
             Spinner petName = dialog.findViewById(R.id.recPet);
 
-            petNames.add("SI KACAKS");
+            vacRType.setText(recTitle.getText());
+            vacRLocation.setText(recLocation.getText());
+            vacDate.setText(recDate.getText());
+
             ArrayAdapter<String> petAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, petNames);
             petAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            records.setAdapter(petAdapter);
+            petName.setAdapter(petAdapter);
 
             submit.setOnClickListener(v -> {
                 VaccinationRecord record = new VaccinationRecord(recKey.getText().toString(), vacRType.getText().toString(), petName.getSelectedItem().toString(), vacRLocation.getText().toString(), vacDate.getText().toString());
@@ -151,6 +145,12 @@ public class VaccinationActivity extends AppCompatActivity {
             dialog.setContentView(R.layout.add_vaccine_schedule);
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             Button submit = dialog.findViewById(R.id.schAddBtn);
+            Spinner addSchePets = dialog.findViewById(R.id.schPet);
+
+            populatePetNames();
+            ArrayAdapter<String> petAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, petNames);
+            petAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            addSchePets.setAdapter(petAdapter);
             submit.setOnClickListener(v1 -> {
                 location = dialog.findViewById(R.id.schLocation);
                 date = dialog.findViewById(R.id.schDate);
@@ -167,14 +167,23 @@ public class VaccinationActivity extends AppCompatActivity {
             dialog.setContentView(R.layout.add_vaccine_record);
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             Button submit = dialog.findViewById(R.id.recAddBtn);
-            submit.setOnClickListener(v1 -> {
-                type = dialog.findViewById(R.id.recVacType);
-                location = dialog.findViewById(R.id.recLocation);
-                date = dialog.findViewById(R.id.recDate);
-                pet = dialog.findViewById(R.id.recPet);
+            Spinner addRecPets = dialog.findViewById(R.id.recPet);
+            type = dialog.findViewById(R.id.recVacType);
+            location = dialog.findViewById(R.id.recLocation);
+            date = dialog.findViewById(R.id.recDate);
+            pet = dialog.findViewById(R.id.recPet);
 
-                VaccinationRecord rec = new VaccinationRecord(type.getText().toString(), location.getText().toString(),
-                        pet.getSelectedItem().toString(), date.getText().toString(), user.getUid());
+            populatePetNames();
+            ArrayAdapter<String> petAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, petNames);
+            petAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            addRecPets.setAdapter(petAdapter);
+            date.setOnClickListener(v1 -> {
+
+            });
+            submit.setOnClickListener(v1 -> {
+
+                VaccinationRecord rec = new VaccinationRecord(type.getText().toString(), pet.getSelectedItem().toString(),
+                        location.getText().toString(), date.getText().toString(), user.getUid());
                 db.insertVaccineRecord(rec);
                 dialog.dismiss();
             });
@@ -183,10 +192,64 @@ public class VaccinationActivity extends AppCompatActivity {
     }
 
     private void initListView() {
+        db.getVaccineSchedules(user.getUid(), new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        VaccinationSchedule schedule = snapshot.getValue(VaccinationSchedule.class);
+                        scheduleList.add(schedule);
+                    }
+                    // Process fetched schedules here
+                } else {
+                    // No schedules found
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Error fetching data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        db.getVaccineRecords(user.getUid(), new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        VaccinationRecord record = snapshot.getValue(VaccinationRecord.class);
+                        recordsList.add(record);
+                    }
+                    // Process fetched schedules here
+                } else {
+                    // No schedules found
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Error fetching data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
         schedules.setAdapter(new VaccinationScheduleAdapter(this, scheduleList));
         schedules.setClickable(true);
         records.setAdapter(new VaccinationRecordAdapter(this, recordsList));
         records.setClickable(true);
+    }
+
+    private void populatePetNames() {
+        db.getPets(user.getUid(), new FirebaseDbHelper.OnPetNamesLoadedListener() {
+            @Override
+            public void onPetNamesLoaded(ArrayList<String> petNameArray) {
+                petNames = petNameArray;
+            }
+            @Override
+            public void onLoadFailed(String errorMessage) {
+                Toast.makeText(getApplicationContext(), "Failed to load pet names: " + errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+        petNames.add("SI KACAKS");
+        petNames.add("SI KACAKS");
+        petNames.add("SI KACAKS");
     }
 
     public void toBack(View view) {
