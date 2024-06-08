@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:id="@+id/editRecKey"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -10,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Pet Schedule"
+            android:text="Edit Pet Schedule"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginBottom="15dp"/>
@@ -21,7 +27,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/recEventName"
+            android:id="@+id/recEventTitle"
             android:layout_marginBottom="15dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -30,7 +36,7 @@
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/recPetSchedule"
+            android:id="@+id/editPetSchedule"
             android:layout_marginBottom="15dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -39,7 +45,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/eventDesc"
+            android:id="@+id/editeventDesc"
             android:layout_marginBottom="15dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -48,7 +54,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/recLocation"
+            android:id="@+id/editLocation"
             android:layout_marginBottom="15dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -59,14 +65,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="date"
-            android:clickable="false"
-            android:focusable="false"
             android:layout_marginBottom="15dp"/>
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Submit"
-            android:layout_gravity="end"
-            android:id="@+id/recAddBtn"/>
+            android:orientation="horizontal"
+            android:gravity="end">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remove"
+                android:layout_gravity="end"
+                android:id="@+id/recRemoveBtn"
+                android:layout_marginEnd="10dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:layout_gravity="end"
+                android:id="@+id/recAddBtn"/>
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

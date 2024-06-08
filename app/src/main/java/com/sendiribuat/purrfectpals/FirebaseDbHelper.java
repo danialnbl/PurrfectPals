@@ -108,6 +108,40 @@ public class FirebaseDbHelper {
         ref.orderByChild("userId").equalTo(userId).addListenerForSingleValueEvent(listener);
     }
 
+    //PetSchedule
+
+    public void insertPetSchedule(PetSchedule schedule) {
+        ref = db.getReference("pet_schedules");
+        String key = ref.push().getKey();
+        ref.child(key).setValue(schedule).addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                Toast.makeText(context, "Successfully added pet schedule!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public void updatePetSchedule(PetSchedule schedule) {
+        ref = db.getReference("pet_schedules");
+        ref.child(schedule.getKey()).setValue(schedule).addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                Toast.makeText(context, "Successfully added pet schedule!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public void deletePetSchedule(String key) {
+        ref = db.getReference("pet_schedules");
+        ref.child(key).removeValue();
+    }
+    public void getPetSchedules(String userId, final ValueEventListener listener) {
+        ref = db.getReference("pet_schedules");
+        ref.orderByChild("userId").equalTo(userId).addListenerForSingleValueEvent(listener);
+    }
+
     public void insertVaccineRecord(VaccinationRecord record) {
         ref = db.getReference("vaccine_records");
         String key = ref.push().getKey();

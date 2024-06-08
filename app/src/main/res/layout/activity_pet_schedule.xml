@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PetSchedule">
+    tools:context=".PetScheduleActivity">
     <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center">
         <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/bgcat" android:layout_centerInParent="true" android:scaleType="centerCrop" android:adjustViewBounds="true" android:contentDescription="Kucing"/>
     </LinearLayout>
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="28dp"
         android:layout_marginTop="-15dp"
-        android:id="@+id/vaccineTitle"
+        android:id="@+id/scheduleTitle"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/cardView"
-        android:layout_below="@+id/vaccineTitle"
+        android:layout_below="@+id/scheduleTitle"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         app:cardCornerRadius="28dp">
@@ -70,12 +70,14 @@
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
-            <ListView
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="450dp"
                 android:layout_marginBottom="10dp"
                 android:id="@+id/vScheduleList"
-                tools:listitem="@layout/petschedule_item"/>
+                android:scrollbars="vertical"
+                tools:listitem="@layout/petschedule_item"
+                />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

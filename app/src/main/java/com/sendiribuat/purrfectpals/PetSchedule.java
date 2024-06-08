@@ -1,43 +1,88 @@
 package com.sendiribuat.purrfectpals;
 
-import android.app.Dialog;
-import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
+import com.google.firebase.database.Exclude;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+public class PetSchedule {
 
-public class PetSchedule extends AppCompatActivity {
+    private String Key,Title,PetName,EvenDesc,EventLocation, Date,UserId;
 
-    Button addPetScheduleBtn;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_pet_schedule);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
-        addPetScheduleBtn = findViewById(R.id.addPetScheduleBtn);
-
-        Dialog dialog = new Dialog(PetSchedule.this);
-        addPetScheduleBtn.setOnClickListener(v -> {
-            dialog.setContentView(R.layout.add_pet_schedule);
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            dialog.show();
-        });
+    public PetSchedule(String key, String title, String petName, String evenDesc, String eventLocation, String date, String userId) {
+        Key = key;
+        Title = title;
+        PetName = petName;
+        EvenDesc = evenDesc;
+        EventLocation = eventLocation;
+        Date = date;
+        UserId = userId;
     }
 
-    public void toBack(View view) {
-        finish();
+    public PetSchedule(String title, String petName, String evenDesc, String eventLocation, String date, String userId) {
+        Title = title;
+        PetName = petName;
+        EvenDesc = evenDesc;
+        EventLocation = eventLocation;
+        Date = date;
+        UserId = userId;
+    }
+
+    public PetSchedule() {
+    }
+
+    public String getTitle() {
+        return Title;
+    }
+
+    public void setTitle(String title) {
+        Title = title;
+    }
+
+    public String getPetName() {
+        return PetName;
+    }
+
+    public void setPetName(String petName) {
+        PetName = petName;
+    }
+
+    public String getEvenDesc() {
+        return EvenDesc;
+    }
+
+    public void setEvenDesc(String evenDesc) {
+        EvenDesc = evenDesc;
+    }
+
+    public String getEventLocation() {
+        return EventLocation;
+    }
+
+    public void setEventLocation(String eventLocation) {
+        EventLocation = eventLocation;
+    }
+
+    public String getDate() {
+        return Date;
+    }
+
+    public void setDate(String date) {
+        Date = date;
+    }
+
+    public String getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(String userId) {
+        UserId = userId;
+    }
+
+    @Exclude
+    public String getKey() {
+        return Key;
+    }
+
+    @Exclude
+    public void setKey(String key) {
+        Key = key;
     }
 }

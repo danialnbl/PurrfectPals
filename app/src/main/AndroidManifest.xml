@@ -16,7 +16,7 @@
             android:name=".FeedTracking"
             android:exported="false" />
         <activity
-            android:name=".PetSchedule"
+            android:name=".PetScheduleActivity"
             android:exported="false" />
         <activity
             android:name=".VaccinationActivity"
