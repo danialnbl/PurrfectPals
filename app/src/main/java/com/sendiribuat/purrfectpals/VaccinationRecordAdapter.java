@@ -9,35 +9,61 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class VaccinationRecordAdapter extends ArrayAdapter<VaccinationRecord> {
-    private TextView key, title, petName, location, date;
-    public VaccinationRecordAdapter(@NonNull Context context, @NonNull List<VaccinationRecord> objects) {
-        super(context, R.layout.record_item, objects);
+public class VaccinationRecordAdapter extends RecyclerView.Adapter<VaccinationRecordAdapter.ViewHolder> {
+    private List<VaccinationRecord> records;
+    private OnItemClickListener listener;
+
+    public VaccinationRecordAdapter(List<VaccinationRecord> records, OnItemClickListener listener) {
+        this.records = records;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        VaccinationRecord record = getItem(position);
+    public VaccinationRecordAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.record_item, parent, false);
+        return new ViewHolder(view, listener); // Pass listener to ViewHolder constructor
+    }
 
-        if(convertView == null)
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.record_item, parent, false);
+    @Override
+    public void onBindViewHolder(@NonNull VaccinationRecordAdapter.ViewHolder holder, int position) {
+        VaccinationRecord record = records.get(position);
+        holder.key.setText(record.getKey());
+        holder.title.setText(record.getTitle());
+        holder.petName.setText(record.getPetName());
+        holder.location.setText(record.getLocation());
+        holder.date.setText(record.getDate());
+    }
 
-        key = convertView.findViewById(R.id.recKey);
-        title = convertView.findViewById(R.id.recordTitle);
-        petName = convertView.findViewById(R.id.recordPet);
-        location = convertView.findViewById(R.id.recordLocation);
-        date = convertView.findViewById(R.id.recordDate);
+    @Override
+    public int getItemCount() {
+        return records.size();
+    }
 
-        key.setText(record.getKey());
-        title.setText(record.getTitle());
-        petName.setText(record.getPetName());
-        location.setText(record.getLocation());
-        date.setText(record.getDate());
+    public interface OnItemClickListener {
+        void onItemClick(VaccinationRecord record);
+    }
 
-        return convertView;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView key, title, petName, location, date;
+
+        public ViewHolder(@NonNull View itemView, OnItemClickListener listener) {
+            super(itemView);
+            key = itemView.findViewById(R.id.recKey);
+            title = itemView.findViewById(R.id.recordTitle);
+            petName = itemView.findViewById(R.id.recordPet);
+            location = itemView.findViewById(R.id.recordLocation);
+            date = itemView.findViewById(R.id.recordDate);
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(records.get(position));
+                }
+            });
+        }
     }
 }

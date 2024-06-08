@@ -123,7 +123,7 @@ public class FirebaseDbHelper {
     }
     public void getVaccineSchedules(String userId, final ValueEventListener listener) {
         ref = db.getReference("vaccine_schedules");
-        ref.orderByChild("UserId").equalTo(userId).addListenerForSingleValueEvent(listener);
+        ref.orderByChild("userId").equalTo(userId).addListenerForSingleValueEvent(listener);
     }
 
     public void insertVaccineRecord(VaccinationRecord record) {

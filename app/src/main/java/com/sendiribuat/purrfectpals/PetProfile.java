@@ -1,15 +1,11 @@
 package com.sendiribuat.purrfectpals;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -84,7 +80,7 @@ public class PetProfile  extends AppCompatActivity {
         ownerName = findViewById(R.id.ownerName);
         ownerNum = findViewById(R.id.ownerNum);
 
-        Pet2 pet = new Pet2("Buddy", "Dog", "Golden Retriever", "Male", "Golden", "Nis", "0132406975", "hanis@gmail.com", "123", 3);
+        Pet pet = new Pet("Buddy", "Dog", "Golden Retriever", "Male", "Golden", "Nis", "0132406975", "hanis@gmail.com", "123", 3);
 
         medHistoryList = findViewById(R.id.petMedHistoryList);
         medicationList = findViewById(R.id.petMedicationList);
@@ -111,7 +107,7 @@ public class PetProfile  extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Pet2 pet = snapshot.getValue(Pet2.class);
+                        Pet pet = snapshot.getValue(Pet.class);
                         if (pet != null) {
                             petName.setText(pet.getPetName());
                             petType.setText(pet.getPetAnimalType());

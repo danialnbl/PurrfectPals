@@ -19,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,16 +32,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VaccinationActivity extends AppCompatActivity {
-    ListView schedules, records;
+    RecyclerView schedules, records;
     FirebaseDbHelper db;
     FirebaseAuth mAuth;
     FirebaseUser user;
     Button addSchedule, addRec;
     EditText type, location, date;
     Spinner pet;
-    ArrayList<String> petNames = new ArrayList<>();
-    ArrayList<VaccinationSchedule> scheduleList = new ArrayList<>();
-    ArrayList<VaccinationRecord> recordsList = new ArrayList<>();
+    ArrayList<String> petNames;
+    ArrayList<VaccinationSchedule> scheduleList;
+    ArrayList<VaccinationRecord> recordsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,86 +59,11 @@ public class VaccinationActivity extends AppCompatActivity {
         user = mAuth.getCurrentUser();
 
         schedules = findViewById(R.id.vScheduleList);
+        schedules.setLayoutManager(new LinearLayoutManager(this));
         records = findViewById(R.id.vRecordList);
-
+        records.setLayoutManager(new LinearLayoutManager(this));
 
         initListView();
-        schedules.setOnItemClickListener((parent, view, position, id) -> {
-            TextView schTitle = view.findViewById(R.id.scheduleTitle);
-            TextView schDate = view.findViewById(R.id.scheduleDate);
-            TextView schKey = view.findViewById(R.id.scheduleKey);
-
-            dialog.setContentView(R.layout.edit_vac_schedule);
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            Button submit = dialog.findViewById(R.id.schAddBtn);
-            Button delete = dialog.findViewById(R.id.schRemoveBtn);
-            EditText schLocation = dialog.findViewById(R.id.editSchLocation);
-            Spinner schePet = dialog.findViewById(R.id.editSchPet);
-            EditText scheDate = dialog.findViewById(R.id.editSchDate);
-            TextView scheKey = dialog.findViewById(R.id.editSchKey);
-
-            schLocation.setText(schTitle.getText().toString());
-            scheDate.setText(schDate.getText().toString());
-            scheKey.setText(schKey.getText().toString());
-
-            populatePetNames();
-            ArrayAdapter<String> petAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, petNames);
-            petAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            schePet.setAdapter(petAdapter);
-
-            submit.setOnClickListener(v -> {
-                db.updateVaccineSchedule(new VaccinationSchedule(scheKey.getText().toString(), schLocation.getText().toString(),
-                        schePet.getSelectedItem().toString(), scheDate.getText().toString()));
-                dialog.dismiss();
-                startActivity(new Intent(this, VaccinationActivity.class));
-                finish();
-            });
-            delete.setOnClickListener(v -> {
-                db.deleteVaccineSchedule(schKey.getText().toString());
-                dialog.dismiss();
-                startActivity(new Intent(this, VaccinationActivity.class));
-                finish();
-            });
-            dialog.show();
-        });
-        records.setOnItemClickListener((parent, view, position, id) -> {
-            TextView recTitle = view.findViewById(R.id.recordTitle);
-            TextView recLocation = view.findViewById(R.id.recordLocation);
-            TextView recDate = view.findViewById(R.id.recordDate);
-            TextView recKey = view.findViewById(R.id.recKey);
-
-            populatePetNames();
-            dialog.setContentView(R.layout.edit_vac_record);
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            Button submit = dialog.findViewById(R.id.recAddBtn);
-            Button delete = dialog.findViewById(R.id.recRemoveBtn);
-            EditText vacRType = dialog.findViewById(R.id.recVacType);
-            EditText vacRLocation = dialog.findViewById(R.id.recLocation);
-            EditText vacDate = dialog.findViewById(R.id.recDate);
-            Spinner petName = dialog.findViewById(R.id.recPet);
-
-            vacRType.setText(recTitle.getText());
-            vacRLocation.setText(recLocation.getText());
-            vacDate.setText(recDate.getText());
-
-            ArrayAdapter<String> petAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, petNames);
-            petAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            petName.setAdapter(petAdapter);
-
-            submit.setOnClickListener(v -> {
-                VaccinationRecord record = new VaccinationRecord(recKey.getText().toString(), vacRType.getText().toString(), petName.getSelectedItem().toString(), vacRLocation.getText().toString(), vacDate.getText().toString());
-                db.updateVaccineRecord(record);
-                startActivity(new Intent(this, VaccinationActivity.class));
-                finish();
-            });
-            delete.setOnClickListener(v -> {
-                db.deleteVaccineRecord(recKey.getText().toString());
-                dialog.dismiss();
-                startActivity(new Intent(this, VaccinationActivity.class));
-                finish();
-            });
-            dialog.show();
-        });
 
         addSchedule = findViewById(R.id.addScheduleBtn);
         addRec = findViewById(R.id.addRecBtn);
@@ -159,6 +86,7 @@ public class VaccinationActivity extends AppCompatActivity {
                 VaccinationSchedule sch = new VaccinationSchedule(location.getText().toString(),
                         pet.getSelectedItem().toString(), date.getText().toString(), user.getUid());
                 db.insertVaccineSchedule(sch);
+                initListView();
                 dialog.dismiss();
             });
             dialog.show();
@@ -181,10 +109,10 @@ public class VaccinationActivity extends AppCompatActivity {
 
             });
             submit.setOnClickListener(v1 -> {
-
                 VaccinationRecord rec = new VaccinationRecord(type.getText().toString(), pet.getSelectedItem().toString(),
                         location.getText().toString(), date.getText().toString(), user.getUid());
                 db.insertVaccineRecord(rec);
+                initListView();
                 dialog.dismiss();
             });
             dialog.show();
@@ -192,15 +120,51 @@ public class VaccinationActivity extends AppCompatActivity {
     }
 
     private void initListView() {
+        scheduleList = new ArrayList<>();
+        recordsList = new ArrayList<>();
+        Dialog dialog = new Dialog(VaccinationActivity.this);
         db.getVaccineSchedules(user.getUid(), new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         VaccinationSchedule schedule = snapshot.getValue(VaccinationSchedule.class);
+                        schedule.setKey(snapshot.getKey());
                         scheduleList.add(schedule);
                     }
-                    // Process fetched schedules here
+                    VaccinationScheduleAdapter schApt = new VaccinationScheduleAdapter(scheduleList, schedule -> {
+                        dialog.setContentView(R.layout.edit_vac_schedule);
+                        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        Button submit = dialog.findViewById(R.id.schAddBtn);
+                        Button delete = dialog.findViewById(R.id.schRemoveBtn);
+                        EditText schLocation = dialog.findViewById(R.id.editSchLocation);
+                        Spinner schePet = dialog.findViewById(R.id.editSchPet);
+                        EditText scheDate = dialog.findViewById(R.id.editSchDate);
+
+                        schLocation.setText(schedule.getTitle());
+                        scheDate.setText(schedule.getDate());
+
+                        populatePetNames();
+                        ArrayAdapter<String> petAdapter = new ArrayAdapter<>(VaccinationActivity.this, android.R.layout.simple_spinner_item, petNames);
+                        petAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        schePet.setAdapter(petAdapter);
+
+                        submit.setOnClickListener(v -> {
+                            schedule.setTitle(schLocation.getText().toString());
+                            schedule.setPetName(schePet.getSelectedItem().toString());
+                            schedule.setDate(scheDate.getText().toString());
+                            db.updateVaccineSchedule(schedule);
+                            dialog.dismiss();
+                            initListView();
+                        });
+                        delete.setOnClickListener(v -> {
+                            db.deleteVaccineSchedule(schedule.getKey());
+                            dialog.dismiss();
+                            initListView();
+                        });
+                        dialog.show();
+                    });
+                    schedules.setAdapter(schApt);
                 } else {
                     // No schedules found
                 }
@@ -217,8 +181,45 @@ public class VaccinationActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         VaccinationRecord record = snapshot.getValue(VaccinationRecord.class);
+                        record.setKey(snapshot.getKey());
                         recordsList.add(record);
                     }
+                    VaccinationRecordAdapter recApt = new VaccinationRecordAdapter(recordsList, record -> {
+                        Toast.makeText(VaccinationActivity.this, "Clicked record: " + record.getTitle(), Toast.LENGTH_SHORT).show();
+                        populatePetNames();
+                        dialog.setContentView(R.layout.edit_vac_record);
+                        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        Button submit = dialog.findViewById(R.id.recAddBtn);
+                        Button delete = dialog.findViewById(R.id.recRemoveBtn);
+                        EditText vacRType = dialog.findViewById(R.id.recVacType);
+                        EditText vacRLocation = dialog.findViewById(R.id.recLocation);
+                        EditText vacDate = dialog.findViewById(R.id.recDate);
+                        Spinner petName = dialog.findViewById(R.id.recPet);
+
+                        vacRType.setText(record.getTitle());
+                        vacRLocation.setText(record.getLocation());
+                        vacDate.setText(record.getDate());
+
+                        ArrayAdapter<String> petAdapter = new ArrayAdapter<>(VaccinationActivity.this, android.R.layout.simple_spinner_item, petNames);
+                        petAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        petName.setAdapter(petAdapter);
+
+                        submit.setOnClickListener(v -> {
+                            record.setTitle(vacRType.getText().toString());
+                            record.setPetName(petName.getSelectedItem().toString());
+                            record.setLocation(vacRLocation.getText().toString());
+                            record.setDate(vacDate.getText().toString());
+                            db.updateVaccineRecord(record);
+                            initListView();
+                        });
+                        delete.setOnClickListener(v -> {
+                            db.deleteVaccineRecord(record.getKey());
+                            dialog.dismiss();
+                            initListView();
+                        });
+                        dialog.show();
+                    });
+                    records.setAdapter(recApt);
                     // Process fetched schedules here
                 } else {
                     // No schedules found
@@ -230,13 +231,12 @@ public class VaccinationActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Error fetching data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        schedules.setAdapter(new VaccinationScheduleAdapter(this, scheduleList));
         schedules.setClickable(true);
-        records.setAdapter(new VaccinationRecordAdapter(this, recordsList));
         records.setClickable(true);
     }
 
     private void populatePetNames() {
+        petNames = new ArrayList<>();
         db.getPets(user.getUid(), new FirebaseDbHelper.OnPetNamesLoadedListener() {
             @Override
             public void onPetNamesLoaded(ArrayList<String> petNameArray) {

@@ -1,13 +1,10 @@
 package com.sendiribuat.purrfectpals;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -19,9 +16,6 @@ import com.google.firebase.database.ValueEventListener;
 
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class PetProfileEdit  extends AppCompatActivity {
 
@@ -74,7 +68,7 @@ public class PetProfileEdit  extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    Pet2 pet = dataSnapshot.getValue(Pet2.class);
+                    Pet pet = dataSnapshot.getValue(Pet.class);
                     if (pet != null) {
                         inputPetName.setText(pet.getPetName());
                         inputPetAge.setText(pet.getPetAge());
@@ -109,7 +103,7 @@ public class PetProfileEdit  extends AppCompatActivity {
         String ownerEmail = inputOwnerEmail.getText().toString().trim();
 
 //        Pet2 pet = new Pet2(petName, petType, petBreed, petGender, petColor, ownerName, ownerNum, ownerEmail, "123", petAge);
-        Pet2 pet = new Pet2("Buddy", "Dog", "Golden Retriever", "Male", "Golden", "Nis", "0132406975", "hanis@gmail.com", "123", 3);
+        Pet pet = new Pet("Buddy", "Dog", "Golden Retriever", "Male", "Golden", "Nis", "0132406975", "hanis@gmail.com", "123", 3);
         pet.setUserId(mAuth.getUid());
         pet.setPetName(petName);
 //        pet.setPetAge(petAge);
