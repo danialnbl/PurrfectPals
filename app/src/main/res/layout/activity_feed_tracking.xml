@@ -70,11 +70,11 @@
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
-            <ListView
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="450dp"
                 android:layout_marginBottom="10dp"
-                android:id="@+id/vScheduleList"
+                android:id="@+id/feedRecyclerView"
                 tools:listitem="@layout/feed_item"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

@@ -13,7 +13,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class FirebaseDbHelper {
@@ -175,6 +174,62 @@ public class FirebaseDbHelper {
     public void getVaccineRecords(String userId, final ValueEventListener listener) {
         ref = db.getReference("vaccine_records");
         ref.orderByChild("userId").equalTo(userId).addListenerForSingleValueEvent(listener);
+    }
+
+    public void getFeedTracking(String userId, OnFeedTrackingLoadedListener listener) {
+        ref = db.getReference("feed_tracking");
+        ref.orderByChild("userId").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    ArrayList<FeedTrack> feedTracks = new ArrayList<>();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        FeedTrack feed = snapshot.getValue(FeedTrack.class);
+                        feedTracks.add(feed);
+                    }
+                    listener.onFeedTrackingLoaded(feedTracks);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(context, "Failed to get user information: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void insertFeedTracking(FeedTrack feed) {
+        ref = db.getReference("feed_tracking");
+        String key = ref.push().getKey();
+        ref.child(key).setValue(feed).addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                Toast.makeText(context, "Successfully added feed tracking!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void updateFeedTracking(FeedTrack feed) {
+        ref = db.getReference("feed_tracking");
+        ref.child(feed.getKey()).setValue(feed).addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                Toast.makeText(context, "Successfully updated feed tracking!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void deleteFeedTracking(String key) {
+        ref = db.getReference("feed_tracking");
+        ref.child(key).removeValue();
+    }
+
+    public interface OnFeedTrackingLoadedListener {
+        void onFeedTrackingLoaded(ArrayList<FeedTrack> feedTracks);
     }
 
     public interface OnPetNamesLoadedListener {
