@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,9 +37,13 @@ public class UserProfile  extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser user;
 
+    private RecyclerView petRecyclerView;
     private ListView petListView;
     private List<Pet> petList;
     private UserPetAdapter petAdapter;
+
+    private TextView ownerName;
+    private TextView ownerEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +67,16 @@ public class UserProfile  extends AppCompatActivity {
         }
 
 
-        petListView = findViewById(R.id.petList);
+//        petListView = findViewById(R.id.petList);
+//        petList = new ArrayList<>();
+//        petAdapter = new UserPetAdapter(petList, this);
+//        petListView.setAdapter(petAdapter);
+
+        petRecyclerView = findViewById(R.id.petList);
         petList = new ArrayList<>();
-        petAdapter = new UserPetAdapter(petList, this);
-        petListView.setAdapter(petAdapter);
+        petAdapter = new UserPetAdapter(petList);
+        petRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        petRecyclerView.setAdapter(petAdapter);
 
         Button addPetBtn = findViewById(R.id.addPetBtn);
         addPetBtn.setOnClickListener(v -> {
@@ -83,6 +95,13 @@ public class UserProfile  extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                        User user = snapshot.getValue(User.class);
+                        if (user != null) {
+                            ownerName.setText(user.getName());
+                            ownerEmail.setText(user.getEmail());
+                        }
+
                         Pet pet = snapshot.getValue(Pet.class);
                         if (pet != null) {
                             petList.add(pet);

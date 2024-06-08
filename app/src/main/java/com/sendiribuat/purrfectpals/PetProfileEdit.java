@@ -1,5 +1,6 @@
 package com.sendiribuat.purrfectpals;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -124,6 +125,10 @@ public class PetProfileEdit  extends AppCompatActivity {
                 Toast.makeText(PetProfileEdit.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
             }
         });
+
+        Intent next = new Intent(getApplicationContext(), PetProfile.class);
+        startActivity(next);
+        finish();
     }
 
 }
