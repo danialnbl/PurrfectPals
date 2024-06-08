@@ -143,7 +143,7 @@ public class PetProfile  extends AppCompatActivity {
 
 
     public void toBack(View view) {
-        Intent next = new Intent(getApplicationContext(), MainActivity.class);
+        Intent next = new Intent(getApplicationContext(), UserProfile.class);
         startActivity(next);
         finish();
     }

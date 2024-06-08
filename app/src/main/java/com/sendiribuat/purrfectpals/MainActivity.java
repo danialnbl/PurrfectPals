@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toPetProfile(View view) {
-        startActivity(new Intent(getApplicationContext(), PetProfile.class));
+        startActivity(new Intent(getApplicationContext(), UserProfile.class));
         finish();
     }
 

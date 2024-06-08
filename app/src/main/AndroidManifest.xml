@@ -45,6 +45,9 @@
         <activity
             android:name=".PetProfileEdit"
             android:exported="false" />
+        <activity
+            android:name=".UserProfile"
+            android:exported="false" />
     </application>
 
 </manifest>

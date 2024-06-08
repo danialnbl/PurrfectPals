@@ -57,24 +57,6 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Owner Name"
-            android:id="@+id/inputOwnerName"
-            android:layout_marginBottom="5dp"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Owner Number"
-            android:id="@+id/inputOwnerNumber"
-            android:layout_marginBottom="5dp"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Owner Email"
-            android:id="@+id/inputOwnerEmail"
-            android:layout_marginBottom="5dp"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:hint="Medical History - Illness"
             android:id="@+id/inputIllness"
             android:layout_marginBottom="5dp"/>
