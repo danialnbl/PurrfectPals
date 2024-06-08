@@ -54,25 +54,4 @@ public class UserPetAdapter extends RecyclerView.Adapter<UserPetAdapter.PetViewH
             // Initialize other fields as needed
         }
     }
-
-//    public UserPetAdapter(@NonNull List<Pet> objects, @NonNull Context context) {
-//        super(context, R.layout.item_pet, objects);
-//    }
-//
-//    @NonNull
-//    @Override
-//    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-//        Pet pet = getItem(position);
-//
-//        if(convertView == null)
-//            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_pet, parent, false);
-//
-//        textPetName = convertView.findViewById(R.id.textPetName);
-//        textPetType = convertView.findViewById(R.id.textPetType);
-//
-//        textPetName.setText(pet.getPetName());
-//        textPetType.setText(pet.getPetAnimalType());
-//
-//        return convertView;
-//    }
 }

@@ -66,12 +66,6 @@ public class UserProfile  extends AppCompatActivity {
             dbRef = db.getDb().getReference("pets");
         }
 
-
-//        petListView = findViewById(R.id.petList);
-//        petList = new ArrayList<>();
-//        petAdapter = new UserPetAdapter(petList, this);
-//        petListView.setAdapter(petAdapter);
-
         petRecyclerView = findViewById(R.id.petList);
         petList = new ArrayList<>();
         petAdapter = new UserPetAdapter(petList);
@@ -86,7 +80,6 @@ public class UserProfile  extends AppCompatActivity {
 
         retrievePets();
 
-
     }
 
     private void retrievePets() {
@@ -97,12 +90,21 @@ public class UserProfile  extends AppCompatActivity {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                         User user = snapshot.getValue(User.class);
+                        Pet pet = snapshot.getValue(Pet.class);
                         if (user != null) {
-                            ownerName.setText(user.getName());
-                            ownerEmail.setText(user.getEmail());
+//                            ownerName.setText(user.getName());
+//                            ownerEmail.setText(user.getEmail());
+
+                            db.getUserInformation(pet.getUserId(), new FirebaseDbHelper.UserCallback() {
+                                @Override
+                                public void onUserCallback(User user) {
+//                                    welcome.setText("Welcome, " + user.getName());
+                                    ownerName.setText(user.getName());
+                                    ownerEmail.setText(user.getEmail());
+                                }
+                            });
                         }
 
-                        Pet pet = snapshot.getValue(Pet.class);
                         if (pet != null) {
                             petList.add(pet);
                         }
