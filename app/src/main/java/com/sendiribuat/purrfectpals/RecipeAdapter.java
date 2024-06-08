@@ -36,47 +36,4 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
 
         return convertView;
     }
-
-//    @NonNull
-//    @Override
-//    public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_foodrecipe, parent, false);
-//        return new RecipeViewHolder(view);
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
-//        Recipe recipe = recipes.get(position);
-//        holder.textRecipeName.setText(recipe.getRecipeName());
-//
-//        holder.buttonView.setOnClickListener(v -> {
-//            Intent intent = new Intent(context, FoodRecipeView.class);
-//            intent.putExtra("recipe", recipe);
-//            context.startActivity(intent);
-//        });
-//
-//        holder.buttonDelete.setOnClickListener(v -> {
-//            database.child(recipe.getId()).removeValue();
-//            recipes.remove(position);
-//            notifyItemRemoved(position);
-//        });
-//    }
-//
-//    @Override
-//    public int getItemCount() {
-//        return recipes.size();
-//    }
-//
-//    static class RecipeViewHolder extends RecyclerView.ViewHolder {
-//
-//        TextView textRecipeName;
-//        Button buttonView, buttonDelete;
-//
-//        public RecipeViewHolder(@NonNull View itemView) {
-//            super(itemView);
-//            textRecipeName = itemView.findViewById(R.id.recipeName);
-//            buttonView = itemView.findViewById(R.id.addRecipeBtn);
-//            buttonDelete = itemView.findViewById(R.id.deleteRecipeBtn);
-//        }
-//    }
 }

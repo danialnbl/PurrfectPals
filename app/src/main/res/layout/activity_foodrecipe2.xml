@@ -46,6 +46,18 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <TextView
+        android:id="@+id/noRecipeMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No recipes available"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:layout_below="@+id/foodRecipeTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:visibility="gone" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/foodRecipeContainer"
         android:layout_width="match_parent"
@@ -101,6 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="15dp"
                 android:text="Add Recipe"
+                android:onClick="openFoodRecipeAdd"
                 android:backgroundTint="@color/my_primary"
                 android:id="@+id/addRecipeBtn"/>
 

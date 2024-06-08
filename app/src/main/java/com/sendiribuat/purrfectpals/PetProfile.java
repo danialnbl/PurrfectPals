@@ -90,9 +90,9 @@ public class PetProfile  extends AppCompatActivity {
         medicationList.setAdapter(medicationAdapter);
 
         editProfileBtn = findViewById(R.id.editProfileBtn);
-        db = new FirebaseDbHelper(this);
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
+//        db = new FirebaseDbHelper(this);
+//        mAuth = FirebaseAuth.getInstance();
+//        user = mAuth.getCurrentUser();
 
         // Set up Edit Profile button
         editProfileBtn = findViewById(R.id.editProfileBtn);

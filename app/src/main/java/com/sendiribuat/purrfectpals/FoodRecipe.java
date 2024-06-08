@@ -1,8 +1,11 @@
 package com.sendiribuat.purrfectpals;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,9 +36,11 @@ public class FoodRecipe extends AppCompatActivity {
     FirebaseDatabase fd;
     FirebaseAuth mAuth;
     FirebaseUser user;
+
+    Button addRecipeBtn;
     private TextView noRecipeMessage;
     private CardView recipeCardView;
-    private RecyclerView recyclerViewRecipes;
+    private ListView listViewRecipes;
     private RecipeAdapter recipeAdapter;
     private List<Recipe> recipeList;
 
@@ -45,50 +50,55 @@ public class FoodRecipe extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foodrecipe2);
 
-//        mAuth = FirebaseAuth.getInstance();
-//        db = FirebaseDatabase.getInstance(Constant.FIREBASE_DB_INSTANCE);
-//        database = db.getReference("recipes");
-//
-//
-//        recipeList = new ArrayList<>();
-//        recipeAdapter = new RecipeAdapter(recipeList, this);
-//
-//        recyclerViewRecipes.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerViewRecipes.setAdapter(recipeAdapter);
-//
-//        checkForRecipes();
-    }
-//
-//    private void checkForRecipes() {
-//        database.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                recipeList.clear();
-//                if (dataSnapshot.exists() && dataSnapshot.hasChildren()) {
-//                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                        Recipe recipe = snapshot.getValue(Recipe.class);
-//                        if (recipe != null) {
-//                            recipeList.add(recipe);
-//                        }
-//                    }
-//                    noRecipeMessage.setVisibility(View.GONE);
-//                    recyclerViewRecipes.setVisibility(View.VISIBLE);
-//                } else {
-//                    noRecipeMessage.setVisibility(View.VISIBLE);
-//                    recyclerViewRecipes.setVisibility(View.GONE);
-//                }
-//                recipeAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                noRecipeMessage.setText("Error getting recipes.");
-//                noRecipeMessage.setVisibility(View.VISIBLE);
-//                recipeCardView.setVisibility(View.GONE);
-//            }
-//        });
-//    }
+        db = new FirebaseDbHelper(this);
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
 
+        noRecipeMessage = findViewById(R.id.noRecipeMessage);
+        listViewRecipes = findViewById(R.id.foodRecipeList);
+        recipeList = new ArrayList<>();
+        recipeAdapter = new RecipeAdapter(recipeList, this);
+
+        listViewRecipes.setAdapter(recipeAdapter);
+
+        Button addRecipeBtn = findViewById(R.id.addRecipeBtn);
+        addRecipeBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(FoodRecipe.this, FoodRecipeAdd.class);
+            startActivity(intent);
+        });
+
+        checkForRecipes();
+    }
+
+    private void checkForRecipes() {
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                recipeList.clear();
+                if (dataSnapshot.exists() && dataSnapshot.hasChildren()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Recipe recipe = snapshot.getValue(Recipe.class);
+                        if (recipe != null) {
+                            recipeList.add(recipe);
+                        }
+                    }
+                    noRecipeMessage.setVisibility(View.GONE);
+                    listViewRecipes.setVisibility(View.VISIBLE);
+                } else {
+                    noRecipeMessage.setVisibility(View.VISIBLE);
+                    listViewRecipes.setVisibility(View.GONE);
+                }
+                recipeAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                noRecipeMessage.setText("Error getting recipes.");
+                noRecipeMessage.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+ 
     public void openFoodRecipeAdd(View view) {
         Intent next = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(next);
