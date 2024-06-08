@@ -79,10 +79,12 @@ public class VaccinationActivity extends AppCompatActivity {
             Button submit = dialog.findViewById(R.id.schAddBtn);
             Spinner addSchePets = dialog.findViewById(R.id.schPet);
 
-            populatePetNames();
-            ArrayAdapter<String> petAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, petNames);
-            petAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            addSchePets.setAdapter(petAdapter);
+            getPetNames(petNames -> {
+                ArrayAdapter<String> petAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, petNames);
+                petAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                addSchePets.setAdapter(petAdapter);
+            });
+
             date.setOnClickListener(v1 -> {
                 // Open DatePickerDialog
                 final Calendar calendar = Calendar.getInstance();
@@ -116,10 +118,11 @@ public class VaccinationActivity extends AppCompatActivity {
             date = dialog.findViewById(R.id.recDate);
             pet = dialog.findViewById(R.id.recPet);
 
-            populatePetNames();
-            ArrayAdapter<String> petAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, petNames);
-            petAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            addRecPets.setAdapter(petAdapter);
+            getPetNames(petNames -> {
+                ArrayAdapter<String> petAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, petNames);
+                petAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                addRecPets.setAdapter(petAdapter);
+            });
             date.setOnClickListener(v1 -> {
                 // Open DatePickerDialog
                 final Calendar calendar = Calendar.getInstance();
@@ -170,10 +173,13 @@ public class VaccinationActivity extends AppCompatActivity {
                         schLocation.setText(schedule.getTitle());
                         scheDate.setText(schedule.getDate());
 
-                        populatePetNames();
-                        ArrayAdapter<String> petAdapter = new ArrayAdapter<>(VaccinationActivity.this, android.R.layout.simple_spinner_item, petNames);
-                        petAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        schePet.setAdapter(petAdapter);
+                        getPetNames(petNames -> {
+                            ArrayAdapter<String> petAdapter = new ArrayAdapter<>(VaccinationActivity.this, android.R.layout.simple_spinner_item, petNames);
+                            petAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            schePet.setAdapter(petAdapter);
+                            // Set the selected pet name if necessary
+                            schePet.setSelection(petNames.indexOf(schedule.getPetName()));
+                        });
 
                         scheDate.setOnClickListener(v -> {
                             // Open DatePickerDialog
@@ -225,7 +231,6 @@ public class VaccinationActivity extends AppCompatActivity {
                         recordsList.add(record);
                     }
                     VaccinationRecordAdapter recApt = new VaccinationRecordAdapter(recordsList, record -> {
-                        populatePetNames();
                         dialog.setContentView(R.layout.edit_vac_record);
                         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                         Button submit = dialog.findViewById(R.id.recAddBtn);
@@ -239,9 +244,13 @@ public class VaccinationActivity extends AppCompatActivity {
                         vacRLocation.setText(record.getLocation());
                         vacDate.setText(record.getDate());
 
-                        ArrayAdapter<String> petAdapter = new ArrayAdapter<>(VaccinationActivity.this, android.R.layout.simple_spinner_item, petNames);
-                        petAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        petName.setAdapter(petAdapter);
+                        getPetNames(petNames -> {
+                            ArrayAdapter<String> petAdapter = new ArrayAdapter<>(VaccinationActivity.this, android.R.layout.simple_spinner_item, petNames);
+                            petAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            petName.setAdapter(petAdapter);
+                            // Set the selected pet name if necessary
+                            petName.setSelection(petNames.indexOf(record.getPetName()));
+                        });
 
                         vacDate.setOnClickListener(v -> {
                             // Open DatePickerDialog
@@ -289,21 +298,29 @@ public class VaccinationActivity extends AppCompatActivity {
         records.setClickable(true);
     }
 
-    private void populatePetNames() {
+    private void getPetNames(PetNamesCallback callback) {
         petNames = new ArrayList<>();
-        db.getPets(user.getUid(), new FirebaseDbHelper.OnPetNamesLoadedListener() {
+        db.getPets(user.getUid(), new ValueEventListener() {
             @Override
-            public void onPetNamesLoaded(ArrayList<String> petNameArray) {
-                petNames = petNameArray;
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Pet pet = snapshot.getValue(Pet.class);
+                    if (pet != null) {
+                        petNames.add(pet.getPetName());
+                    }
+                }
+                callback.onPetNamesLoaded(petNames);
             }
+
             @Override
-            public void onLoadFailed(String errorMessage) {
-                Toast.makeText(getApplicationContext(), "Failed to load pet names: " + errorMessage, Toast.LENGTH_SHORT).show();
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle error
             }
         });
-        petNames.add("SI KACAKS");
-        petNames.add("SI KACAKS");
-        petNames.add("SI KACAKS");
+    }
+
+    public interface PetNamesCallback {
+        void onPetNamesLoaded(ArrayList<String> petNames);
     }
 
     public void toBack(View view) {

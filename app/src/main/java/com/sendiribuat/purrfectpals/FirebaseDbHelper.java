@@ -49,27 +49,9 @@ public class FirebaseDbHelper {
                 });
         return success.get();
     }
-    public void getPets(String userId, final OnPetNamesLoadedListener listener) {
+    public void getPets(String userId, final ValueEventListener listener) {
         ref = db.getReference("pets");
-        ref.orderByChild("UserId").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<String> petNames = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Pet pet = snapshot.getValue(Pet.class);
-                    if (pet != null) {
-                        petNames.add(pet.getPetName());
-                    }
-                }
-                listener.onPetNamesLoaded(petNames);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Handle error
-                listener.onLoadFailed(databaseError.toException().getMessage());
-            }
-        });
+        ref.orderByChild("userId").equalTo(userId).addListenerForSingleValueEvent(listener);
     }
 
     public void getUserInformation(String userId, final UserCallback userCallback) {
