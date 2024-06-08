@@ -52,15 +52,14 @@ public class FirebaseDbHelper {
         ref.orderByChild("UserId").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<String> petNames = new ArrayList<>();
+                ArrayList<String> petNames = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Pet pet = snapshot.getValue(Pet.class);
                     if (pet != null) {
                         petNames.add(pet.getPetName());
                     }
                 }
-                String[] petNamesArray = petNames.toArray(new String[0]);
-                listener.onPetNamesLoaded(petNamesArray);
+                listener.onPetNamesLoaded(petNames);
             }
 
             @Override
@@ -134,8 +133,25 @@ public class FirebaseDbHelper {
         });
     }
 
+    public void deleteVaccineRecord(String key) {
+        ref = db.getReference("vaccine_records");
+        ref.child(key).removeValue();
+    }
+
+    public void updateVaccineRecord(VaccinationRecord record) {
+        ref = db.getReference("vaccine_records");
+        ref.child(record.getKey()).setValue(record).addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                Toast.makeText(context, "Successfully updated vaccine schedule!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     public interface OnPetNamesLoadedListener {
-        void onPetNamesLoaded(String[] petNames);
+        void onPetNamesLoaded(ArrayList<String> petNames);
 
         void onLoadFailed(String errorMessage);
     }

@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 public class VaccinationRecordAdapter extends ArrayAdapter<VaccinationRecord> {
-    private TextView title, petName, location, date;
+    private TextView key, title, petName, location, date;
     public VaccinationRecordAdapter(@NonNull Context context, @NonNull List<VaccinationRecord> objects) {
         super(context, R.layout.record_item, objects);
     }
@@ -26,11 +26,13 @@ public class VaccinationRecordAdapter extends ArrayAdapter<VaccinationRecord> {
         if(convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.record_item, parent, false);
 
+        key = convertView.findViewById(R.id.recKey);
         title = convertView.findViewById(R.id.recordTitle);
         petName = convertView.findViewById(R.id.recordPet);
         location = convertView.findViewById(R.id.recordLocation);
         date = convertView.findViewById(R.id.recordDate);
 
+        key.setText(record.getKey());
         title.setText(record.getTitle());
         petName.setText(record.getPetName());
         location.setText(record.getLocation());

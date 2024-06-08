@@ -106,7 +106,7 @@ public class PetProfile  extends AppCompatActivity {
     }
 
     private void retrieveData() {
-        dbRef.orderByChild("UserId").equalTo(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
+        dbRef.orderByChild("UserId").equalTo(mAuth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {

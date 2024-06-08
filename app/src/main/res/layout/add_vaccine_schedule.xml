@@ -10,27 +10,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Vaccine Record"
+            android:text="Add Vaccine Schedule"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginBottom="15dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Vaccine Type"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/recVacType"
-            android:layout_marginBottom="15dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pet"/>
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/recPet"
             android:layout_marginBottom="15dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -39,14 +21,23 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/recLocation"
+            android:id="@+id/schLocation"
+            android:layout_marginBottom="15dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pet"/>
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/schPet"
             android:layout_marginBottom="15dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Date"/>
         <EditText
-            android:id="@+id/recDate"
+            android:id="@+id/schDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="date"
@@ -56,6 +47,6 @@
             android:layout_height="wrap_content"
             android:text="Submit"
             android:layout_gravity="end"
-            android:id="@+id/recAddBtn"/>
+            android:id="@+id/schAddBtn"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

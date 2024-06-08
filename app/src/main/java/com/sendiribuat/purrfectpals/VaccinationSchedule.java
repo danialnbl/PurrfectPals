@@ -1,7 +1,17 @@
 package com.sendiribuat.purrfectpals;
 
+import com.google.firebase.database.Exclude;
+
 public class VaccinationSchedule {
-    private String Title, PetName, Date, UserId;
+    private String Key, Title, PetName, Date, UserId;
+
+    public VaccinationSchedule(String key, String title, String petName, String date, String userId) {
+        Key = key;
+        Title = title;
+        PetName = petName;
+        Date = date;
+        UserId = userId;
+    }
 
     public VaccinationSchedule(String title, String petName, String date, String userId) {
         Title = title;
@@ -40,5 +50,15 @@ public class VaccinationSchedule {
 
     public void setUserId(String userId) {
         UserId = userId;
+    }
+
+    @Exclude
+    public String getKey() {
+        return Key;
+    }
+
+    @Exclude
+    public void setKey(String key) {
+        Key = key;
     }
 }
