@@ -1,5 +1,6 @@
 package com.sendiribuat.purrfectpals;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class VaccinationActivity extends AppCompatActivity {
@@ -69,6 +71,9 @@ public class VaccinationActivity extends AppCompatActivity {
         addRec = findViewById(R.id.addRecBtn);
 
         addSchedule.setOnClickListener(v -> {
+            location = dialog.findViewById(R.id.schLocation);
+            date = dialog.findViewById(R.id.schDate);
+            pet = dialog.findViewById(R.id.schPet);
             dialog.setContentView(R.layout.add_vaccine_schedule);
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             Button submit = dialog.findViewById(R.id.schAddBtn);
@@ -78,11 +83,21 @@ public class VaccinationActivity extends AppCompatActivity {
             ArrayAdapter<String> petAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, petNames);
             petAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             addSchePets.setAdapter(petAdapter);
-            submit.setOnClickListener(v1 -> {
-                location = dialog.findViewById(R.id.schLocation);
-                date = dialog.findViewById(R.id.schDate);
-                pet = dialog.findViewById(R.id.schPet);
+            date.setOnClickListener(v1 -> {
+                // Open DatePickerDialog
+                final Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
 
+                DatePickerDialog datePickerDialog = new DatePickerDialog(VaccinationActivity.this,
+                        (view1, selectedYear, selectedMonth, selectedDay) -> {
+                            // Set selected date to EditText
+                            date.setText(selectedYear + "-" + (selectedMonth + 1) + "-" + selectedDay);
+                        }, year, month, day);
+                datePickerDialog.show();
+            });
+            submit.setOnClickListener(v1 -> {
                 VaccinationSchedule sch = new VaccinationSchedule(location.getText().toString(),
                         pet.getSelectedItem().toString(), date.getText().toString(), user.getUid());
                 db.insertVaccineSchedule(sch);
@@ -106,7 +121,18 @@ public class VaccinationActivity extends AppCompatActivity {
             petAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             addRecPets.setAdapter(petAdapter);
             date.setOnClickListener(v1 -> {
+                // Open DatePickerDialog
+                final Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
 
+                DatePickerDialog datePickerDialog = new DatePickerDialog(VaccinationActivity.this,
+                        (view1, selectedYear, selectedMonth, selectedDay) -> {
+                            // Set selected date to EditText
+                            date.setText(selectedYear + "-" + (selectedMonth + 1) + "-" + selectedDay);
+                        }, year, month, day);
+                datePickerDialog.show();
             });
             submit.setOnClickListener(v1 -> {
                 VaccinationRecord rec = new VaccinationRecord(type.getText().toString(), pet.getSelectedItem().toString(),
@@ -149,6 +175,20 @@ public class VaccinationActivity extends AppCompatActivity {
                         petAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         schePet.setAdapter(petAdapter);
 
+                        scheDate.setOnClickListener(v -> {
+                            // Open DatePickerDialog
+                            final Calendar calendar = Calendar.getInstance();
+                            int year = calendar.get(Calendar.YEAR);
+                            int month = calendar.get(Calendar.MONTH);
+                            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                            DatePickerDialog datePickerDialog = new DatePickerDialog(VaccinationActivity.this,
+                                    (view1, selectedYear, selectedMonth, selectedDay) -> {
+                                        // Set selected date to EditText
+                                        scheDate.setText(selectedYear + "-" + (selectedMonth + 1) + "-" + selectedDay);
+                                    }, year, month, day);
+                            datePickerDialog.show();
+                        });
                         submit.setOnClickListener(v -> {
                             schedule.setTitle(schLocation.getText().toString());
                             schedule.setPetName(schePet.getSelectedItem().toString());
@@ -185,7 +225,6 @@ public class VaccinationActivity extends AppCompatActivity {
                         recordsList.add(record);
                     }
                     VaccinationRecordAdapter recApt = new VaccinationRecordAdapter(recordsList, record -> {
-                        Toast.makeText(VaccinationActivity.this, "Clicked record: " + record.getTitle(), Toast.LENGTH_SHORT).show();
                         populatePetNames();
                         dialog.setContentView(R.layout.edit_vac_record);
                         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -204,12 +243,27 @@ public class VaccinationActivity extends AppCompatActivity {
                         petAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         petName.setAdapter(petAdapter);
 
+                        vacDate.setOnClickListener(v -> {
+                            // Open DatePickerDialog
+                            final Calendar calendar = Calendar.getInstance();
+                            int year = calendar.get(Calendar.YEAR);
+                            int month = calendar.get(Calendar.MONTH);
+                            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                            DatePickerDialog datePickerDialog = new DatePickerDialog(VaccinationActivity.this,
+                                    (view1, selectedYear, selectedMonth, selectedDay) -> {
+                                        // Set selected date to EditText
+                                        vacDate.setText(selectedYear + "-" + (selectedMonth + 1) + "-" + selectedDay);
+                                    }, year, month, day);
+                            datePickerDialog.show();
+                        });
                         submit.setOnClickListener(v -> {
                             record.setTitle(vacRType.getText().toString());
                             record.setPetName(petName.getSelectedItem().toString());
                             record.setLocation(vacRLocation.getText().toString());
                             record.setDate(vacDate.getText().toString());
                             db.updateVaccineRecord(record);
+                            dialog.dismiss();
                             initListView();
                         });
                         delete.setOnClickListener(v -> {
