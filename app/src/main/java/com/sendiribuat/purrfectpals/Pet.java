@@ -1,10 +1,13 @@
 package com.sendiribuat.purrfectpals;
 
+import com.google.firebase.database.Exclude;
+
+import java.io.Serializable;
 import java.util.List;
 
-public class Pet {
+public class Pet implements Serializable {
 
-    private String PetName, PetAnimalType, PetBreed, PetGender, PetColor, OwnerName, OwnerNum, OwnerEmail, UserId;
+    private String PetName, PetAnimalType, PetBreed, PetGender, PetColor, OwnerName, OwnerNum, OwnerEmail, UserId, Key;
     private List<PetProfileMedical> medicalHistory;
     private List<PetProfileMedication> medications;
 
@@ -120,5 +123,15 @@ public class Pet {
 
     public void setMedications(List<PetProfileMedication> medications) {
         this.medications = medications;
+    }
+
+    @Exclude
+    public String getKey() {
+        return Key;
+    }
+
+    @Exclude
+    public void setKey(String key) {
+        Key = key;
     }
 }

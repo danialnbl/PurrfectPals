@@ -36,9 +36,11 @@ public class PetProfile  extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser user;
 
+    private List<PetProfileMedical> petMedHistoryList;
+
+    private List<PetProfileMedication> petMedicationList;
+
     ListView medHistoryList, medicationList;
-    List<PetProfileMedical> medicalHistory = new ArrayList<>();
-    List<PetProfileMedication> medication = new ArrayList<>();
     PetProfileMedicalAdapter medHistoryAdapter;
     PetProfileMedicationAdapter medicationAdapter;
 
@@ -61,11 +63,8 @@ public class PetProfile  extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = new FirebaseDbHelper(this);
-//        fd = FirebaseDatabase.getInstance("https://purrfect-pals-e5ca8-default-rtdb.asia-southeast1.firebasedatabase.app");
         user = mAuth.getCurrentUser();
 
-//        mAuth = FirebaseAuth.getInstance();
-//        user = mAuth.getCurrentUser();
 
         if (user != null) {
             dbRef = db.getDb().getReference("pets");
@@ -77,17 +76,18 @@ public class PetProfile  extends AppCompatActivity {
         petBreed = findViewById(R.id.petBreed);
         petGender = findViewById(R.id.petGender);
         petColor = findViewById(R.id.petColor);
-        //ownerName = findViewById(R.id.ownerName);
-        //ownerNum = findViewById(R.id.ownerNum);
 
-        Pet pet = new Pet("Buddy", "Dog", "Golden Retriever", "Male", "Golden", "Nis", "0132406975", "hanis@gmail.com", "123", 3);
+        //Pet pet = new Pet();
 
         medHistoryList = findViewById(R.id.petMedHistoryList);
-        medicationList = findViewById(R.id.petMedicationList);
-        medHistoryAdapter = new PetProfileMedicalAdapter(this, medicalHistory);
-        medicationAdapter = new PetProfileMedicationAdapter(this, medication);
+        petMedHistoryList = new ArrayList<>();
+        medHistoryAdapter = new PetProfileMedicalAdapter(this, petMedHistoryList);
         medHistoryList.setAdapter(medHistoryAdapter);
-        medicationList.setAdapter(medicationAdapter);
+
+        medicationList = findViewById(R.id.petMedicationList);
+        petMedicationList = new ArrayList<>();
+        medicationAdapter = new PetProfileMedicationAdapter(this, petMedicationList);
+        medicationList.setAdapter(medHistoryAdapter);
 
         editProfileBtn = findViewById(R.id.editProfileBtn);
 
@@ -99,7 +99,7 @@ public class PetProfile  extends AppCompatActivity {
     }
 
     private void retrieveData() {
-        dbRef.orderByChild("UserId").equalTo(mAuth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -112,21 +112,18 @@ public class PetProfile  extends AppCompatActivity {
                             petAge.setText(String.valueOf(pet.getPetAge()));
                             petGender.setText(pet.getPetGender());
                             petColor.setText(pet.getPetColor());
-//                            ownerName.setText(pet.getOwnerName());
-//                            ownerNum.setText(pet.getOwnerNum());
-//                            ownerEmail.setText(pet.getOwnerEmail());
 
                             // Update medical history
                             if (pet.getMedicalHistory() != null) {
-                                medicalHistory.clear();
-                                medicalHistory.addAll(pet.getMedicalHistory());
+                                petMedHistoryList.clear();
+                                petMedHistoryList.addAll(pet.getMedicalHistory());
                                 medHistoryAdapter.notifyDataSetChanged();
                             }
 
                             // Update medications
                             if (pet.getMedications() != null) {
-                                medication.clear();
-                                medication.addAll(pet.getMedications());
+                                petMedicationList.clear();
+                                petMedicationList.addAll(pet.getMedications());
                                 medicationAdapter.notifyDataSetChanged();
                             }
                         }

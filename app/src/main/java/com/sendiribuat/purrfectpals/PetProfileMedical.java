@@ -1,8 +1,10 @@
 package com.sendiribuat.purrfectpals;
 
+import com.google.firebase.database.Exclude;
+
 public class PetProfileMedical {
 
-    private String Illness, Date, UserId;
+    private String Illness, Date, UserId, Key;
 
     public PetProfileMedical(String illness, String date, String userId) {
         Illness = illness;
@@ -34,5 +36,15 @@ public class PetProfileMedical {
 
     public void setUserId(String userId) {
         UserId = userId;
+    }
+
+    @Exclude
+    public String getKey() {
+        return Key;
+    }
+
+    @Exclude
+    public void setKey(String key) {
+        Key = key;
     }
 }

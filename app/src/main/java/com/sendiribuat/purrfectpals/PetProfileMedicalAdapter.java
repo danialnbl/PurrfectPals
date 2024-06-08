@@ -13,10 +13,13 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 public class PetProfileMedicalAdapter extends ArrayAdapter<PetProfileMedical> {
+
     private TextView illness, illnessDate;
+    private FirebaseDbHelper db;
 
     public PetProfileMedicalAdapter(@NonNull Context context, @NonNull List<PetProfileMedical> objects) {
         super(context, R.layout.item_medicalhistory, objects);
+        db = new FirebaseDbHelper(context);
     }
 
     @NonNull

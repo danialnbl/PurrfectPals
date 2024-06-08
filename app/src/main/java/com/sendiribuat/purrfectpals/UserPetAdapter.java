@@ -1,10 +1,12 @@
 package com.sendiribuat.purrfectpals;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,45 +15,36 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class UserPetAdapter extends RecyclerView.Adapter<UserPetAdapter.PetViewHolder> {
+public class UserPetAdapter extends ArrayAdapter<Pet> {
 
-    private List<Pet> petList;
+    private FirebaseDbHelper db;
 
-    public UserPetAdapter(List<Pet> petList) {
-        this.petList = petList;
+    public UserPetAdapter(@NonNull Context context, @NonNull List<Pet> pets) {
+        super(context, R.layout.item_pet, pets);
+        db = new FirebaseDbHelper(context);
     }
 
     @NonNull
     @Override
-    public PetViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_pet, parent, false);
-        return new PetViewHolder(view);
-    }
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        Pet pet = getItem(position);
 
-    @Override
-    public void onBindViewHolder(@NonNull PetViewHolder holder, int position) {
-        Pet pet = petList.get(position);
-        holder.petName.setText(pet.getPetName());
-        holder.petType.setText(pet.getPetAnimalType());
-        holder.petBreed.setText(pet.getPetBreed());
-        // Set other fields as needed
-    }
+        if(convertView == null)
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_pet, parent, false);
 
-    @Override
-    public int getItemCount() {
-        return petList.size();
-    }
+        TextView petNameTextView = convertView.findViewById(R.id.textPetName);
+        TextView petSpeciesTextView = convertView.findViewById(R.id.textPetType);
 
-    static class PetViewHolder extends RecyclerView.ViewHolder {
-        TextView petName, petType, petBreed;
-        // Add other fields as needed
+        petNameTextView.setText(pet.getPetName());
+        petSpeciesTextView.setText(pet.getPetAnimalType());
 
-        PetViewHolder(@NonNull View itemView) {
-            super(itemView);
-            petName = itemView.findViewById(R.id.petName);
-            petType = itemView.findViewById(R.id.petType);
-            petBreed = itemView.findViewById(R.id.petBreed);
-            // Initialize other fields as needed
-        }
+        Button viewPetDetailBtn = convertView.findViewById(R.id.viewPetDetailBtn);
+        viewPetDetailBtn.setOnClickListener(v -> {
+            Intent viewIntent = new Intent(getContext(), PetProfile.class);
+            viewIntent.putExtra("pet", pet);
+            getContext().startActivity(viewIntent);
+        });
+
+        return convertView;
     }
 }

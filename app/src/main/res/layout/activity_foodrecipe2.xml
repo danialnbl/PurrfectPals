@@ -117,12 +117,7 @@
                 android:backgroundTint="@color/my_primary"
                 android:id="@+id/addRecipeBtn"/>
 
-            <Button
-                android:layout_width="140dp"
-                android:layout_height="wrap_content"
-                android:text="View Recipe"
-                android:backgroundTint="@color/my_primary"
-                android:id="@+id/viewRecipeBtn"/>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

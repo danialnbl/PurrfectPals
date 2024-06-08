@@ -59,23 +59,34 @@ public class UserProfile  extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = new FirebaseDbHelper(this);
-//        fd = FirebaseDatabase.getInstance("https://purrfect-pals-e5ca8-default-rtdb.asia-southeast1.firebasedatabase.app");
         user = mAuth.getCurrentUser();
+        dbRef = db.getDb().getReference("pets");
 
-        if (user != null) {
-            dbRef = db.getDb().getReference("pets");
+        if(user != null) {
+            db.getUserInformation(user.getUid(), new FirebaseDbHelper.UserCallback() {
+                @Override
+                public void onUserCallback(User user) {
+                    ownerName = findViewById(R.id.ownerName);
+                    ownerEmail = findViewById(R.id.ownerEmail);
+                    ownerName.setText(user.getName());
+                    ownerEmail.setText(user.getEmail());
+
+                }
+            });
         }
 
-        petRecyclerView = findViewById(R.id.petList);
+        petListView = findViewById(R.id.petList);
         petList = new ArrayList<>();
-        petAdapter = new UserPetAdapter(petList);
-        petRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        petRecyclerView.setAdapter(petAdapter);
+        petAdapter = new UserPetAdapter(this, petList);
+        petListView.setAdapter(petAdapter);
 
         Button addPetBtn = findViewById(R.id.addPetBtn);
         addPetBtn.setOnClickListener(v -> {
             Intent intent = new Intent(UserProfile.this, PetProfileEdit.class);
             startActivity(intent);
+        });
+        petListView.setOnItemClickListener((parent, view, position, id) -> {
+
         });
 
         retrievePets();
@@ -83,28 +94,14 @@ public class UserProfile  extends AppCompatActivity {
     }
 
     private void retrievePets() {
-        dbRef.orderByChild("UserId").equalTo(mAuth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                petList.clear();
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-                        User user = snapshot.getValue(User.class);
                         Pet pet = snapshot.getValue(Pet.class);
-                        if (user != null) {
-//                            ownerName.setText(user.getName());
-//                            ownerEmail.setText(user.getEmail());
-
-                            db.getUserInformation(pet.getUserId(), new FirebaseDbHelper.UserCallback() {
-                                @Override
-                                public void onUserCallback(User user) {
-//                                    welcome.setText("Welcome, " + user.getName());
-                                    ownerName.setText(user.getName());
-                                    ownerEmail.setText(user.getEmail());
-                                }
-                            });
-                        }
-
+                        pet.setKey(snapshot.getKey());
                         if (pet != null) {
                             petList.add(pet);
                         }

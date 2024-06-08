@@ -52,9 +52,6 @@ public class PetProfileEdit  extends AppCompatActivity {
         inputPetBreed = findViewById(R.id.inputPetBreed);
         inputPetGender = findViewById(R.id.inputPetGender);
         inputPetColor = findViewById(R.id.inputPetColor);
-//        inputOwnerName = findViewById(R.id.inputOwnerName);
-//        inputOwnerNum = findViewById(R.id.inputOwnerNumber);
-//        inputOwnerEmail = findViewById(R.id.inputOwnerEmail);
 
         // Initialize Save Button
         saveProfileBtn = findViewById(R.id.saveProfileBtn);
@@ -77,9 +74,6 @@ public class PetProfileEdit  extends AppCompatActivity {
                         inputPetBreed.setText(pet.getPetBreed());
                         inputPetGender.setText(pet.getPetGender());
                         inputPetColor.setText(pet.getPetColor());
-//                        inputOwnerName.setText(pet.getOwnerName());
-//                        inputOwnerNum.setText(pet.getOwnerNum());
-//                        inputOwnerEmail.setText(pet.getOwnerEmail());
                     }
                 }
             }
@@ -99,23 +93,15 @@ public class PetProfileEdit  extends AppCompatActivity {
         String petBreed = inputPetBreed.getText().toString().trim();
         String petGender = inputPetGender.getText().toString().trim();
         String petColor = inputPetColor.getText().toString().trim();
-//        String ownerName = inputOwnerName.getText().toString().trim();
-//        String ownerNum = inputOwnerNum.getText().toString().trim();
-//        String ownerEmail = inputOwnerEmail.getText().toString().trim();
 
-//        Pet2 pet = new Pet2(petName, petType, petBreed, petGender, petColor, ownerName, ownerNum, ownerEmail, "123", petAge);
-        Pet pet = new Pet("Buddy", "Dog", "Golden Retriever", "Male", "Golden", "Nis", "0132406975", "hanis@gmail.com", "123", 3);
+        Pet pet = new Pet();
         pet.setUserId(mAuth.getUid());
         pet.setPetName(petName);
-//        pet.setPetAge(petAge);
         pet.setPetAge(Integer.parseInt(petAge));
         pet.setPetAnimalType(petType);
         pet.setPetBreed(petBreed);
         pet.setPetGender(petGender);
         pet.setPetColor(petColor);
-//        pet.setOwnerName(ownerName);
-//        pet.setOwnerNum(ownerNum);
-//        pet.setOwnerEmail(ownerEmail);
 
         dbRef.child(key).setValue(pet).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {

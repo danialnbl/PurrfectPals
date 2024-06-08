@@ -14,10 +14,12 @@ import java.util.List;
 
 public class PetProfileMedicationAdapter extends ArrayAdapter<PetProfileMedication> {
 
+    private FirebaseDbHelper db;
     private TextView medName, medDose;
 
     public PetProfileMedicationAdapter(@NonNull Context context, @NonNull List<PetProfileMedication> objects) {
         super(context, R.layout.item_medication, objects);
+        db = new FirebaseDbHelper(context);
     }
 
     @NonNull
