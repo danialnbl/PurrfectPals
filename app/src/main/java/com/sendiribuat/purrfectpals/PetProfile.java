@@ -104,7 +104,9 @@ public class PetProfile  extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Pet pet = snapshot.getValue(Pet.class);
+                        //Pet pet = snapshot.getValue(Pet.class);
+                        Intent intent = getIntent();
+                        Pet pet = (Pet) intent.getSerializableExtra("pet");
                         if (pet != null) {
                             petName.setText(pet.getPetName());
                             petType.setText(pet.getPetAnimalType());

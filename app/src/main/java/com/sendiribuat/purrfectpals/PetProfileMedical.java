@@ -4,8 +4,11 @@ import com.google.firebase.database.Exclude;
 
 public class PetProfileMedical {
 
-    private String Illness, Date, UserId, Key;
+    private String Illness, Date, UserId, Key, PetId;
 
+    public PetProfileMedical() {
+
+    }
     public PetProfileMedical(String illness, String date, String userId) {
         Illness = illness;
         Date = date;
@@ -36,6 +39,14 @@ public class PetProfileMedical {
 
     public void setUserId(String userId) {
         UserId = userId;
+    }
+
+    public String getPetId() {
+        return PetId;
+    }
+
+    public void setPetId(String petId) {
+        PetId = petId;
     }
 
     @Exclude

@@ -49,36 +49,6 @@ public class FoodRecipeView  extends AppCompatActivity {
 
     }
 
-//    private void retrieveRecipeFromDatabase(String recipeName) {
-//        // Get a reference to the "recipes" node in the database
-//        DatabaseReference recipeRef = FirebaseDatabase.getInstance().getReference("recipes");
-//
-//        // Query the database to find the recipe with the given name
-//        recipeRef.child(recipeName).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.exists()) {
-//                    // Recipe found, retrieve its details
-//                    Recipe recipe = dataSnapshot.getValue(Recipe.class);
-//                    if (recipe != null) {
-//                        // Set the retrieved details to the corresponding TextViews
-//                        recipeNameTextView.setText(recipe.getRecipeName());
-//                        recipeItemTextView.setText(recipe.getRecipeItem());
-//                    }
-//                } else {
-//                    // Recipe not found, display a message
-//                    Toast.makeText(FoodRecipeView.this, "Recipe not found", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                // Handle any errors that may occur
-//                Toast.makeText(FoodRecipeView.this, "Error retrieving recipe", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-
     public void toBack(View view) {
         Intent next = new Intent(getApplicationContext(), FoodRecipe.class);
         startActivity(next);

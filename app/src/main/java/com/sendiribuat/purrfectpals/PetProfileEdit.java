@@ -18,6 +18,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Arrays;
+
 public class PetProfileEdit  extends AppCompatActivity {
 
     DatabaseReference dbRef;
@@ -40,10 +42,7 @@ public class PetProfileEdit  extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = new FirebaseDbHelper(this);
         user = mAuth.getCurrentUser();
-
-        if (user != null) {
-            dbRef = db.getDb().getReference("pets");
-        }
+        dbRef = db.getDb().getReference("pets");
 
 // Initialize EditTexts
         inputPetName = findViewById(R.id.inputPetName);
@@ -93,6 +92,10 @@ public class PetProfileEdit  extends AppCompatActivity {
         String petBreed = inputPetBreed.getText().toString().trim();
         String petGender = inputPetGender.getText().toString().trim();
         String petColor = inputPetColor.getText().toString().trim();
+//        String illness = inputIllness.getText().toString().trim();
+//        String illnessDate = inputIllnessDate.getText().toString().trim();
+//        String medication = inputMedication.getText().toString().trim();
+//        String dosage = inputDosage.getText().toString().trim();
 
         Pet pet = new Pet();
         pet.setUserId(mAuth.getUid());
@@ -103,6 +106,22 @@ public class PetProfileEdit  extends AppCompatActivity {
         pet.setPetGender(petGender);
         pet.setPetColor(petColor);
 
+//        PetProfileMedical petMedHistory = new PetProfileMedical();
+//        petMedHistory.setUserId(mAuth.getUid());
+//        petMedHistory.setPetId(pet.getPetName());
+//        petMedHistory.setIllness(illness);
+//        petMedHistory.setDate(illnessDate);
+//
+//        PetProfileMedication petMedication = new PetProfileMedication();
+//        petMedication.setUserId(mAuth.getUid());
+//        petMedication.setPetId(pet.getPetName());
+//        petMedication.setMedication(medication);
+//        petMedication.setDosage(dosage);
+//
+//        pet.setMedicalHistory(Arrays.asList(petMedHistory));
+//        pet.setMedications(Arrays.asList(petMedication));
+
+
         dbRef.child(key).setValue(pet).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(PetProfileEdit.this, "Profile updated", Toast.LENGTH_SHORT).show();
@@ -112,9 +131,13 @@ public class PetProfileEdit  extends AppCompatActivity {
             }
         });
 
-        Intent next = new Intent(getApplicationContext(), PetProfile.class);
-        startActivity(next);
-        finish();
+//        Intent next = new Intent(getApplicationContext(), PetProfile.class);
+//        startActivity(next);
+//        finish();
+
+        Intent viewIntent = new Intent(getApplicationContext(), PetProfile.class);
+        viewIntent.putExtra("pet", pet);
+        startActivity(viewIntent);
     }
 
 }
