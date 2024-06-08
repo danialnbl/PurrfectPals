@@ -24,6 +24,15 @@ public class FirebaseDbHelper {
         mAuth = FirebaseAuth.getInstance();
         this.context = context;
     }
+
+    public FirebaseDatabase getDb() {
+        return db;
+    }
+
+    public DatabaseReference getRef() {
+        return ref;
+    }
+
     public boolean insertUser(User user, String userId) {
         AtomicBoolean success = new AtomicBoolean(false);
         ref = db.getReference("users");
@@ -95,6 +104,21 @@ public class FirebaseDbHelper {
                 Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    public void updateVaccineSchedule(VaccinationSchedule schedule) {
+        ref = db.getReference("vaccine_schedules");
+        ref.child(schedule.getKey()).setValue(schedule).addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                Toast.makeText(context, "Successfully added vaccine schedule!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public void deleteVaccineSchedule(String key) {
+        ref = db.getReference("vaccine_schedules");
+        ref.child(key).removeValue();
     }
 
     public void insertVaccineRecord(VaccinationRecord record) {

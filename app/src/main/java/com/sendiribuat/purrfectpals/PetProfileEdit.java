@@ -40,21 +40,14 @@ public class PetProfileEdit  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-//        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_petprofileedit2);
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
 
         mAuth = FirebaseAuth.getInstance();
         db = new FirebaseDbHelper(this);
-//        fd = FirebaseDatabase.getInstance("https://purrfect-pals-e5ca8-default-rtdb.asia-southeast1.firebasedatabase.app");
         user = mAuth.getCurrentUser();
 
         if (user != null) {
-            dbRef = FirebaseDatabase.getInstance().getReference("Pet2").child(user.getUid());
+            dbRef = db.getDb().getReference("pets");
         }
 
 // Initialize EditTexts
@@ -75,89 +68,6 @@ public class PetProfileEdit  extends AppCompatActivity {
         // Retrieve current data for editing
         retrieveDataForEditing();
     }
-//
-//    private void initializeViews() {
-//        editTextPetName = findViewById(R.id.editTextPetName);
-//        editTextPetAge = findViewById(R.id.editTextPetAge);
-//        editTextPetType = findViewById(R.id.editTextPetType);
-//        editTextPetBreed = findViewById(R.id.editTextPetBreed);
-//        editTextPetGender = findViewById(R.id.editTextPetGender);
-//        editTextPetColor = findViewById(R.id.editTextPetColor);
-//        editTextOwnerName = findViewById(R.id.editTextOwnerName);
-//        editTextOwnerNum = findViewById(R.id.editTextOwnerNum);
-//        editTextPetIllness = findViewById(R.id.editTextPetIllness);
-//        editTextIllnessDate = findViewById(R.id.editTextIllnessDate);
-//        editTextPetMedication = findViewById(R.id.editTextPetMedication);
-//        editTextPetDosage = findViewById(R.id.editTextPetDosage);
-//    }
-//
-//    private void fetchProfileData() {
-//        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if (snapshot.exists()) {
-//                    editTextPetName.setText(snapshot.child("petName").getValue(String.class));
-//                    editTextPetAge.setText(snapshot.child("petAge").getValue(String.class));
-//                    editTextPetType.setText(snapshot.child("petType").getValue(String.class));
-//                    editTextPetBreed.setText(snapshot.child("petBreed").getValue(String.class));
-//                    editTextPetGender.setText(snapshot.child("petGender").getValue(String.class));
-//                    editTextPetColor.setText(snapshot.child("petColor").getValue(String.class));
-//                    editTextOwnerName.setText(snapshot.child("ownerName").getValue(String.class));
-//                    editTextOwnerNum.setText(snapshot.child("ownerNum").getValue(String.class));
-//                    editTextPetIllness.setText(snapshot.child("petIllness").getValue(String.class));
-//                    editTextIllnessDate.setText(snapshot.child("illnessDate").getValue(String.class));
-//                    editTextPetMedication.setText(snapshot.child("petMedication").getValue(String.class));
-//                    editTextPetDosage.setText(snapshot.child("petDosage").getValue(String.class));
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Toast.makeText(PetProfileEdit.this, "Error fetching data", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-//
-//    public void saveProfile(View view) {
-//        // Update data in the database based on the values in the EditText fields
-//        String petName = editTextPetName.getText().toString();
-//        String petAge = editTextPetAge.getText().toString();
-//        String petType = editTextPetType.getText().toString();
-//        String petBreed = editTextPetBreed.getText().toString();
-//        String petGender = editTextPetGender.getText().toString();
-//        String petColor = editTextPetColor.getText().toString();
-//        String ownerName = editTextOwnerName.getText().toString();
-//        String ownerNum = editTextOwnerNum.getText().toString();
-//        String petIllness = editTextPetIllness.getText().toString();
-//        String illnessDate = editTextIllnessDate.getText().toString();
-//        String petMedication = editTextPetMedication.getText().toString();
-//        String petDosage = editTextPetDosage.getText().toString();
-//
-//        userRef.child("petName").setValue(petName);
-//        userRef.child("petAge").setValue(petAge);
-//        userRef.child("petType").setValue(petType);
-//        userRef.child("petBreed").setValue(petBreed);
-//        userRef.child("petGender").setValue(petGender);
-//        userRef.child("petColor").setValue(petColor);
-//        userRef.child("ownerName").setValue(ownerName);
-//        userRef.child("ownerNum").setValue(ownerNum);
-//        userRef.child("petIllness").setValue(petIllness);
-//        userRef.child("illnessDate").setValue(illnessDate);
-//        userRef.child("petMedication").setValue(petMedication);
-//        userRef.child("petDosage").setValue(petDosage);
-//
-//        // Redirect back to PetProfile activity after saving
-//        Intent intent = new Intent(this, PetProfile.class);
-//        startActivity(intent);
-//        finish();
-//    }
-//
-//    public void openPetProfile(View view) {
-//        Intent next = new Intent(getApplicationContext(), PetProfile.class);
-//        startActivity(next);
-//        finish();
-//    }
-
 
     private void retrieveDataForEditing() {
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -187,6 +97,7 @@ public class PetProfileEdit  extends AppCompatActivity {
     }
 
     private void saveProfile() {
+        String key = dbRef.push().getKey();
         String petName = inputPetName.getText().toString().trim();
         String petAge = inputPetAge.getText().toString().trim();
         String petType = inputPetType.getText().toString().trim();
@@ -199,7 +110,7 @@ public class PetProfileEdit  extends AppCompatActivity {
 
 //        Pet2 pet = new Pet2(petName, petType, petBreed, petGender, petColor, ownerName, ownerNum, ownerEmail, "123", petAge);
         Pet2 pet = new Pet2("Buddy", "Dog", "Golden Retriever", "Male", "Golden", "Nis", "0132406975", "hanis@gmail.com", "123", 3);
-        pet.setUserId(pet.getUserId());
+        pet.setUserId(mAuth.getUid());
         pet.setPetName(petName);
 //        pet.setPetAge(petAge);
         pet.setPetAge(Integer.parseInt(petAge));
@@ -211,7 +122,7 @@ public class PetProfileEdit  extends AppCompatActivity {
         pet.setOwnerNum(ownerNum);
         pet.setOwnerEmail(ownerEmail);
 
-        dbRef.setValue(pet).addOnCompleteListener(task -> {
+        dbRef.child(key).setValue(pet).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(PetProfileEdit.this, "Profile updated", Toast.LENGTH_SHORT).show();
                 finish();
