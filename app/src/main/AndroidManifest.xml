@@ -40,6 +40,12 @@
             android:name=".FoodRecipe"
             android:exported="true" />
         <activity
+            android:name=".FoodRecipeAdd"
+            android:exported="true" />
+        <activity
+            android:name=".FoodRecipeView"
+            android:exported="true" />
+        <activity
             android:name=".PetProfile"
             android:exported="false" />
         <activity

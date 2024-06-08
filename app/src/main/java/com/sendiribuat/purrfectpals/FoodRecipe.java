@@ -53,6 +53,7 @@ public class FoodRecipe extends AppCompatActivity {
         db = new FirebaseDbHelper(this);
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+        dbRef = db.getDb().getReference("recipes");
 
         noRecipeMessage = findViewById(R.id.noRecipeMessage);
         listViewRecipes = findViewById(R.id.foodRecipeList);
@@ -66,6 +67,9 @@ public class FoodRecipe extends AppCompatActivity {
             Intent intent = new Intent(FoodRecipe.this, FoodRecipeAdd.class);
             startActivity(intent);
         });
+        listViewRecipes.setOnItemClickListener((parent, view, position, id) -> {
+
+        });
 
         checkForRecipes();
     }
@@ -78,6 +82,7 @@ public class FoodRecipe extends AppCompatActivity {
                 if (dataSnapshot.exists() && dataSnapshot.hasChildren()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Recipe recipe = snapshot.getValue(Recipe.class);
+                        recipe.setKey(snapshot.getKey());
                         if (recipe != null) {
                             recipeList.add(recipe);
                         }

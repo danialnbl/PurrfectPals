@@ -35,6 +35,8 @@ public class FoodRecipeView  extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foodrecipeview2);
+        Intent intent = getIntent();
+        Recipe recipe = (Recipe) intent.getSerializableExtra("recipe");
 
         db = new FirebaseDbHelper(this);
         mAuth = FirebaseAuth.getInstance();
@@ -42,12 +44,14 @@ public class FoodRecipeView  extends AppCompatActivity {
 
         recipeNameTextView = findViewById(R.id.recipeName);
         recipeItemTextView = findViewById(R.id.recipeItem);
+        recipeNameTextView.setText(recipe.getRecipeName());
+        recipeItemTextView.setText(recipe.getRecipeItem());
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            String recipeName = extras.getString("recipeName");
-            retrieveRecipeFromDatabase(recipeName);
-        }
+//        Bundle extras = getIntent().getExtras();
+//        if (extras != null) {
+//            String recipeName = extras.getString("recipeName");
+//            retrieveRecipeFromDatabase(recipeName);
+//        }
     }
 
     private void retrieveRecipeFromDatabase(String recipeName) {

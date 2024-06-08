@@ -3,6 +3,7 @@ package com.sendiribuat.purrfectpals;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -28,8 +29,8 @@ public class FoodRecipeAdd extends AppCompatActivity {
     FirebaseDatabase fd;
     FirebaseAuth mAuth;
     FirebaseUser user;
-    private EditText editTextRecipeName;
-    private EditText editTextRecipeItem;
+    private EditText editTextRecipeName, editTextRecipeItem;
+    Button submit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,40 +43,37 @@ public class FoodRecipeAdd extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
 
-        dbRef = FirebaseDatabase.getInstance().getReference("recipes");
+        dbRef = db.getDb().getReference("recipes");
 
         editTextRecipeName = findViewById(R.id.inputRecipeName);
         editTextRecipeItem = findViewById(R.id.inputRecipeItem);
-//
-//        mAuth = FirebaseAuth.getInstance();
-//        db = FirebaseDatabase.getInstance(Constant.FIREBASE_DB_INSTANCE);
-//        database = db.getReference("recipes");
-    }
+        submit = findViewById(R.id.saveRecipeBtn);
 
-    public void addRecipe(View view) {
-        String recipeName = editTextRecipeName.getText().toString().trim();
-        String recipeItem = editTextRecipeItem.getText().toString().trim();
+        submit.setOnClickListener(v -> {
+            String recipeName = editTextRecipeName.getText().toString().trim();
+            String recipeItem = editTextRecipeItem.getText().toString().trim();
 
-        if (recipeName.isEmpty()) {
-            editTextRecipeName.setError("Recipe name is required");
-            editTextRecipeName.requestFocus();
-            return;
-        }
+            if (recipeName.isEmpty()) {
+                editTextRecipeName.setError("Recipe name is required");
+                editTextRecipeName.requestFocus();
+                return;
+            }
 
-        if (recipeItem.isEmpty()) {
-            editTextRecipeItem.setError("Recipe item/ingredient is required");
-            editTextRecipeItem.requestFocus();
-            return;
-        }
+            if (recipeItem.isEmpty()) {
+                editTextRecipeItem.setError("Recipe item/ingredient is required");
+                editTextRecipeItem.requestFocus();
+                return;
+            }
 
-        String id = dbRef.push().getKey();
-        Recipe recipe = new Recipe(recipeName, recipeItem);
-        dbRef.child(id).setValue(recipe);
+            String id = dbRef.push().getKey();
+            Recipe recipe = new Recipe(recipeName, recipeItem, user.getUid());
+            dbRef.child(id).setValue(recipe);
 
-        Toast.makeText(this, "Recipe added successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Recipe added successfully", Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(this, FoodRecipe.class);
-        startActivity(intent);
-        finish();
+            Intent intent = new Intent(this, FoodRecipe.class);
+            startActivity(intent);
+            finish();
+        });
     }
 }

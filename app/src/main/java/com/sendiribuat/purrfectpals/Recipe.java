@@ -1,19 +1,22 @@
 package com.sendiribuat.purrfectpals;
 
+import com.google.firebase.database.Exclude;
+
 import java.io.Serializable;
 import java.util.List;
 
-public class Recipe {
+public class Recipe implements Serializable{
 
-    private String RecipeName, RecipeItem, UserId;
+    private String RecipeName, RecipeItem, UserId, Key;
 
     public Recipe() {
         // Default constructor required for calls to DataSnapshot.getValue(Recipe.class)
     }
 
-    public Recipe(String recipeName, String recipeItem) {
+    public Recipe(String recipeName, String recipeItem, String userId) {
         RecipeName = recipeName;
         RecipeItem = recipeItem;
+        UserId = userId;
     }
 
     public String getRecipeName() {
@@ -39,14 +42,13 @@ public class Recipe {
         UserId = userId;
     }
 
+    @Exclude
+    public String getKey() {
+        return Key;
+    }
 
-    // Method to get the recipe items as a single string with multiple lines
-//    public String getRecipeItemsAsString() {
-//        StringBuilder itemsBuilder = new StringBuilder();
-//        for (String item : recipeItem) {
-//            itemsBuilder.append(item).append("\n"); // Add each item with a new line
-//        }
-//        return itemsBuilder.toString();
-//    }
-
+    @Exclude
+    public void setKey(String key) {
+        Key = key;
+    }
 }
