@@ -1,6 +1,8 @@
 package com.sendiribuat.purrfectpals;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,7 +36,7 @@ public class FirebaseDbHelper {
         return ref;
     }
 
-    public boolean insertUser(User user, String userId) {
+    public boolean insertUser(User user, String userId, Activity activity) {
         AtomicBoolean success = new AtomicBoolean(false);
         ref = db.getReference("users");
         ref.child(userId).setValue(user)
@@ -42,6 +44,9 @@ public class FirebaseDbHelper {
                     success.set(task1.isSuccessful());
                     if (task1.isSuccessful()) {
                         Toast.makeText(context, "Registration successful!", Toast.LENGTH_SHORT).show();
+                        mAuth.signOut();
+                        context.startActivity(new Intent(context, LoginActivity.class));
+                        activity.finish();
                     } else {
                         Toast.makeText(context, "Failed to register. Please try again.", Toast.LENGTH_SHORT).show();
                     }

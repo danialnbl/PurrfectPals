@@ -57,11 +57,7 @@ public class RegisterActivity extends AppCompatActivity {
                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
                     String userId = firebaseUser.getUid();
                     User user = new User(name, username, email);
-                    if(db.insertUser(user, userId)) {
-                        mAuth.signOut();
-                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                        finish();
-                    }
+                    db.insertUser(user, userId, this);
                 }
                 else {
                     if (task.getException() instanceof FirebaseAuthUserCollisionException) {

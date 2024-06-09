@@ -85,6 +85,9 @@ public class PetProfileEdit  extends AppCompatActivity {
         String petGender = inputPetGender.getText().toString().trim();
         String petColor = inputPetColor.getText().toString().trim();
 
+        if (pet == null) {
+            pet = new Pet();
+        }
         pet.setUserId(mAuth.getUid());
         pet.setPetName(petName);
         pet.setPetAge(Integer.parseInt(petAge));
@@ -93,7 +96,7 @@ public class PetProfileEdit  extends AppCompatActivity {
         pet.setPetGender(petGender);
         pet.setPetColor(petColor);
 
-        dbRef.child(!pet.getKey().isEmpty() ? pet.getKey() : key).setValue(pet).addOnCompleteListener(task -> {
+        dbRef.child(pet.getKey() == null || pet.getKey().isEmpty() ? key : pet.getKey()).setValue(pet).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(PetProfileEdit.this, "Profile updated", Toast.LENGTH_SHORT).show();
                 Intent viewIntent = new Intent(this, PetProfile.class);
