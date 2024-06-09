@@ -2,17 +2,18 @@ package com.sendiribuat.purrfectpals;
 
 import com.google.firebase.database.Exclude;
 
-public class PetProfileMedical {
+import java.io.Serializable;
 
-    private String Illness, Date, UserId, Key, PetId;
+public class PetProfileMedical implements Serializable {
+
+    private String Illness, Date, Key, PetId;
 
     public PetProfileMedical() {
 
     }
-    public PetProfileMedical(String illness, String date, String userId) {
+    public PetProfileMedical(String illness, String date) {
         Illness = illness;
         Date = date;
-        UserId = userId;
     }
 
     public String getIllness() {
@@ -30,23 +31,6 @@ public class PetProfileMedical {
 
     public void setDate(String date) {
         Date = date;
-    }
-
-
-    public String getUserId() {
-        return UserId;
-    }
-
-    public void setUserId(String userId) {
-        UserId = userId;
-    }
-
-    public String getPetId() {
-        return PetId;
-    }
-
-    public void setPetId(String petId) {
-        PetId = petId;
     }
 
     @Exclude

@@ -2,7 +2,9 @@ package com.sendiribuat.purrfectpals;
 
 import com.google.firebase.database.Exclude;
 
-public class PetProfileMedication {
+import java.io.Serializable;
+
+public class PetProfileMedication implements Serializable {
 
     private String Medication, Dosage, UserId, Key, PetId;
 
@@ -10,10 +12,9 @@ public class PetProfileMedication {
 
     }
 
-    public PetProfileMedication(String medication, String dosage, String userId) {
+    public PetProfileMedication(String medication, String dosage) {
         Medication = medication;
         Dosage = dosage;
-        UserId = userId;
     }
 
     public String getMedication() {
@@ -31,23 +32,6 @@ public class PetProfileMedication {
 
     public void setDosage(String dosage) {
         Dosage = dosage;
-    }
-
-
-    public String getUserId() {
-        return UserId;
-    }
-
-    public void setUserId(String userId) {
-        UserId = userId;
-    }
-
-    public String getPetId() {
-        return PetId;
-    }
-
-    public void setPetId(String petId) {
-        PetId = petId;
     }
 
     @Exclude

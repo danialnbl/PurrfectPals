@@ -62,7 +62,7 @@ public class Pet implements Serializable {
 
     public String getPetColor() { return PetColor; }
     public void setPetColor(String petColor) {
-        PetBreed = petColor;
+        PetColor = petColor;
     }
 
 

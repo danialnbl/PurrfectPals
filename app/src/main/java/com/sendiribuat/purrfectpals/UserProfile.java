@@ -77,7 +77,7 @@ public class UserProfile  extends AppCompatActivity {
 
         petListView = findViewById(R.id.petList);
         petList = new ArrayList<>();
-        petAdapter = new UserPetAdapter(this, petList);
+        petAdapter = new UserPetAdapter(this, petList, this);
         petListView.setAdapter(petAdapter);
 
         Button addPetBtn = findViewById(R.id.addPetBtn);
@@ -119,8 +119,6 @@ public class UserProfile  extends AppCompatActivity {
 
 
     public void toBack(View view) {
-        Intent next = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(next);
         finish();
     }
 

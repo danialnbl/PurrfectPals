@@ -54,31 +54,31 @@
             android:hint="Pet Color"
             android:id="@+id/inputPetColor"
             android:layout_marginBottom="5dp"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Medical History - Illness"
-            android:id="@+id/inputIllness"
-            android:layout_marginBottom="5dp"/>
-        <EditText
-            android:id="@+id/inputIllnessDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Medical History - Illness Date"
-            android:inputType="date"
-            android:layout_marginBottom="5dp"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Medication Name"
-            android:id="@+id/inputMedication"
-            android:layout_marginBottom="5dp"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Dosage"
-            android:id="@+id/inputDosage"
-            android:layout_marginBottom="5dp"/>
+<!--        <EditText-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="Medical History - Illness"-->
+<!--            android:id="@+id/inputIllness"-->
+<!--            android:layout_marginBottom="5dp"/>-->
+<!--        <EditText-->
+<!--            android:id="@+id/inputIllnessDate"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="Medical History - Illness Date"-->
+<!--            android:inputType="date"-->
+<!--            android:layout_marginBottom="5dp"/>-->
+<!--        <EditText-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="Medication Name"-->
+<!--            android:id="@+id/inputMedication"-->
+<!--            android:layout_marginBottom="5dp"/>-->
+<!--        <EditText-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="Dosage"-->
+<!--            android:id="@+id/inputDosage"-->
+<!--            android:layout_marginBottom="5dp"/>-->
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

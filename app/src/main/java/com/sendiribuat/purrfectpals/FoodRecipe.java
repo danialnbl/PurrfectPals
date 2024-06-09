@@ -109,4 +109,8 @@ public class FoodRecipe extends AppCompatActivity {
         startActivity(next);
         finish();
     }
+
+    public void toBack(View view) {
+        finish();
+    }
 }

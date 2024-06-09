@@ -6,24 +6,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     tools:context=".PetProfile">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/bgcat"
-            android:layout_centerInParent="true"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
-            android:contentDescription="Kucing"
-            android:alpha="0.2"/>
-    </LinearLayout>
-
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,6 +43,17 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/bgcat"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:contentDescription="Kucing"
+            android:alpha="0.2"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -101,69 +94,137 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
+                            android:orientation="horizontal"
                             android:padding="15dp">
-
-                            <TextView
-                                android:id="@+id/petName"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:text="Pet Name"
-                                android:textColor="@color/white"
-                                android:textSize="15sp"
-                                android:textStyle="bold" />
+                                android:orientation="vertical"
+                                android:layout_marginEnd="10dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:text="Pet Name"
+                                    android:textColor="@color/white"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
 
-                            <TextView
-                                android:id="@+id/petType"
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:text="Pet Type"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:text="Pet Breed"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:text="Pet Age"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:text="Pet Gender"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:text="Pet Color"
+                                    android:textColor="@color/white" />
+                            </LinearLayout>
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:text="Pet Type"
-                                android:textColor="@color/white" />
+                                android:orientation="vertical">
+                                <TextView
+                                    android:id="@+id/petName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:text="Pet Name"
+                                    android:textColor="@color/white"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
 
-                            <TextView
-                                android:id="@+id/petBreed"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:text="Pet Breed"
-                                android:textColor="@color/white" />
+                                <TextView
+                                    android:id="@+id/petType"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:text="Pet Type"
+                                    android:textColor="@color/white" />
 
-                            <TextView
-                                android:id="@+id/petAge"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:text="Pet Age"
-                                android:textColor="@color/white" />
+                                <TextView
+                                    android:id="@+id/petBreed"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:text="Pet Breed"
+                                    android:textColor="@color/white" />
 
-                            <TextView
-                                android:id="@+id/petGender"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:text="Pet Gender"
-                                android:textColor="@color/white" />
+                                <TextView
+                                    android:id="@+id/petAge"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:text="Pet Age"
+                                    android:textColor="@color/white" />
 
-                            <TextView
-                                android:id="@+id/petColor"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:text="Pet Color"
-                                android:textColor="@color/white" />
+                                <TextView
+                                    android:id="@+id/petGender"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:text="Pet Gender"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:id="@+id/petColor"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:text="Pet Color"
+                                    android:textColor="@color/white" />
+                            </LinearLayout>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:text="Medical History"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text="Medical History"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="10dp"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add History"
+                        android:id="@+id/addMedHistory"/>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -186,20 +247,34 @@
                             <ListView
                                 android:id="@+id/petMedHistoryList"
                                 android:layout_width="match_parent"
-                                android:layout_height="200dp"
-                                android:layout_marginBottom="10dp"
+                                android:layout_height="wrap_content"
                                 tools:listitem="@layout/item_medicalhistory" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:text="Current Medication"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text="Current Medication"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="10dp"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add Medication"
+                        android:id="@+id/addMedication"/>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -222,8 +297,7 @@
                             <ListView
                                 android:id="@+id/petMedicationList"
                                 android:layout_width="match_parent"
-                                android:layout_height="200dp"
-                                android:layout_marginBottom="10dp"
+                                android:layout_height="wrap_content"
                                 tools:listitem="@layout/item_medication" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
