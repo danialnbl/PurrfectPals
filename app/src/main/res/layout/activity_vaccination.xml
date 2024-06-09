@@ -29,9 +29,7 @@
                 android:layout_height="30dp"
                 android:src="@drawable/arrow_back_ios_24px"
                 android:background="@null"
-                android:backgroundTint="@color/black"
                 android:onClick="toBack"
-                app:tint="@color/my_primary"
                 />
             <TextView
                 android:layout_width="wrap_content"

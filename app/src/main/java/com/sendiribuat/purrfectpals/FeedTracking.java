@@ -126,6 +126,7 @@ public class FeedTracking extends AppCompatActivity {
                         })
                         .setNegativeButton("No", (dialog1, which) -> {})
                         .create().show();
+                initList();
             });
             feedView.setAdapter(feedApt);
         });

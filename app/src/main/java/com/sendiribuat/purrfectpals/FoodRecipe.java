@@ -65,6 +65,7 @@ public class FoodRecipe extends AppCompatActivity {
         addRecipeBtn.setOnClickListener(v -> {
             Intent intent = new Intent(FoodRecipe.this, FoodRecipeAdd.class);
             startActivity(intent);
+            finish();
         });
         listViewRecipes.setOnItemClickListener((parent, view, position, id) -> {
 
