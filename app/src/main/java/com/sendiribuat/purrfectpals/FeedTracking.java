@@ -1,8 +1,10 @@
 package com.sendiribuat.purrfectpals;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,7 +117,15 @@ public class FeedTracking extends AppCompatActivity {
     private void initList() {
         db.getFeedTracking(user.getUid(), feedTracks -> {
             FeedTrackAdapter feedApt = new FeedTrackAdapter(feedTracks, feedTrack -> {
-                Toast.makeText(FeedTracking.this, "Clicked: " + feedTrack.getFeedName(), Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(this)
+                        .setTitle("Delete Feed Tracking")
+                        .setMessage(feedTrack.getFeedName() + " " + feedTrack.getFeedDate() + " " + feedTrack.getFeedTime())
+                        .setPositiveButton("Yes", (dialog1, which) -> {
+                            db.getDb().getReference("feed_tracking").child(feedTrack.getKey()).removeValue();
+                            initList();
+                        })
+                        .setNegativeButton("No", (dialog1, which) -> {})
+                        .create().show();
             });
             feedView.setAdapter(feedApt);
         });

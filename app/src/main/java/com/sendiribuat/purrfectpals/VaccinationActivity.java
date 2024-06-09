@@ -71,11 +71,11 @@ public class VaccinationActivity extends AppCompatActivity {
         addRec = findViewById(R.id.addRecBtn);
 
         addSchedule.setOnClickListener(v -> {
+            dialog.setContentView(R.layout.add_vaccine_schedule);
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             location = dialog.findViewById(R.id.schLocation);
             date = dialog.findViewById(R.id.schDate);
             pet = dialog.findViewById(R.id.schPet);
-            dialog.setContentView(R.layout.add_vaccine_schedule);
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             Button submit = dialog.findViewById(R.id.schAddBtn);
             Spinner addSchePets = dialog.findViewById(R.id.schPet);
 

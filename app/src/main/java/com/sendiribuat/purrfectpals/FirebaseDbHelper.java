@@ -91,7 +91,7 @@ public class FirebaseDbHelper {
         ref = db.getReference("vaccine_schedules");
         ref.child(schedule.getKey()).setValue(schedule).addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
-                Toast.makeText(context, "Successfully added vaccine schedule!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Successfully updated vaccine schedule!", Toast.LENGTH_SHORT).show();
             }
             else {
                 Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -185,6 +185,7 @@ public class FirebaseDbHelper {
                     ArrayList<FeedTrack> feedTracks = new ArrayList<>();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         FeedTrack feed = snapshot.getValue(FeedTrack.class);
+                        feed.setKey(snapshot.getKey());
                         feedTracks.add(feed);
                     }
                     listener.onFeedTrackingLoaded(feedTracks);

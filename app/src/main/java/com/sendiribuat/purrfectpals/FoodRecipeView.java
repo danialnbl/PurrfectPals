@@ -46,12 +46,9 @@ public class FoodRecipeView  extends AppCompatActivity {
         recipeItemTextView = findViewById(R.id.recipeItem);
         recipeNameTextView.setText(recipe.getRecipeName());
         recipeItemTextView.setText(recipe.getRecipeItem());
-
     }
 
     public void toBack(View view) {
-        Intent next = new Intent(getApplicationContext(), FoodRecipe.class);
-        startActivity(next);
         finish();
     }
 

@@ -59,7 +59,6 @@ public class FoodRecipe extends AppCompatActivity {
         listViewRecipes = findViewById(R.id.foodRecipeList);
         recipeList = new ArrayList<>();
         recipeAdapter = new RecipeAdapter(recipeList, this);
-
         listViewRecipes.setAdapter(recipeAdapter);
 
         Button addRecipeBtn = findViewById(R.id.addRecipeBtn);

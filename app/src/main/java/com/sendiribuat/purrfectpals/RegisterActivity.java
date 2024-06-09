@@ -51,25 +51,31 @@ public class RegisterActivity extends AppCompatActivity {
         String email = regEmailET.getText().toString().trim();
         String password = regPassET.getText().toString().trim();
 
-        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                String userId = firebaseUser.getUid();
-                User user = new User(name, username, email);
-                if(db.insertUser(user, userId)) {
-                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                    finish();
-                }
-            }
-            else {
-                if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                    Toast.makeText(RegisterActivity.this, "This email is already registered.", Toast.LENGTH_SHORT).show();
+        if(!name.isEmpty() && !username.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
+            mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                    String userId = firebaseUser.getUid();
+                    User user = new User(name, username, email);
+                    if(db.insertUser(user, userId)) {
+                        mAuth.signOut();
+                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                        finish();
+                    }
                 }
                 else {
-                    Toast.makeText(RegisterActivity.this, task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                        Toast.makeText(RegisterActivity.this, "This email is already registered.", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(RegisterActivity.this, task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
+        }
+        else {
+            Toast.makeText(this, "All text fields are incomplete!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void openLogin(View view) {

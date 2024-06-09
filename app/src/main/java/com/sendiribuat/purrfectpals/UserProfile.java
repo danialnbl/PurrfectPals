@@ -94,7 +94,7 @@ public class UserProfile  extends AppCompatActivity {
     }
 
     private void retrievePets() {
-        dbRef.addValueEventListener(new ValueEventListener() {
+        dbRef.orderByChild("userId").equalTo(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 petList.clear();
