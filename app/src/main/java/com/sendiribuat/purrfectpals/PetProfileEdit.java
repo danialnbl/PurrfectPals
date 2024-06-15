@@ -71,13 +71,19 @@ public class PetProfileEdit  extends AppCompatActivity {
             inputPetGender.setText(pet.getPetGender());
             inputPetColor.setText(pet.getPetColor());
         }
-        else {
-            pet = new Pet();
-        }
     }
 
     private void saveProfile() {
-        String key = dbRef.push().getKey();
+        String key;
+        if(pet == null) {
+            pet = new Pet();
+            key = dbRef.push().getKey();
+            pet.setKey(key);
+        }
+        else {
+            key = pet.getKey();
+        }
+
         String petName = inputPetName.getText().toString().trim();
         String petAge = inputPetAge.getText().toString().trim();
         String petType = inputPetType.getText().toString().trim();
@@ -85,9 +91,6 @@ public class PetProfileEdit  extends AppCompatActivity {
         String petGender = inputPetGender.getText().toString().trim();
         String petColor = inputPetColor.getText().toString().trim();
 
-        if (pet == null) {
-            pet = new Pet();
-        }
         pet.setUserId(mAuth.getUid());
         pet.setPetName(petName);
         pet.setPetAge(Integer.parseInt(petAge));
@@ -96,7 +99,7 @@ public class PetProfileEdit  extends AppCompatActivity {
         pet.setPetGender(petGender);
         pet.setPetColor(petColor);
 
-        dbRef.child(pet.getKey() == null || pet.getKey().isEmpty() ? key : pet.getKey()).setValue(pet).addOnCompleteListener(task -> {
+        dbRef.child(key).setValue(pet).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(PetProfileEdit.this, "Profile updated", Toast.LENGTH_SHORT).show();
                 Intent viewIntent = new Intent(this, PetProfile.class);

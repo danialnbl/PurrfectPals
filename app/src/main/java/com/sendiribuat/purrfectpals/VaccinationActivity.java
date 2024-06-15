@@ -103,7 +103,8 @@ public class VaccinationActivity extends AppCompatActivity {
                 VaccinationSchedule sch = new VaccinationSchedule(location.getText().toString(),
                         pet.getSelectedItem().toString(), date.getText().toString(), user.getUid());
                 db.insertVaccineSchedule(sch);
-                initListView();
+                startActivity(new Intent(VaccinationActivity.this, VaccinationActivity.class));
+                finish();
                 dialog.dismiss();
             });
             dialog.show();
@@ -141,7 +142,8 @@ public class VaccinationActivity extends AppCompatActivity {
                 VaccinationRecord rec = new VaccinationRecord(type.getText().toString(), pet.getSelectedItem().toString(),
                         location.getText().toString(), date.getText().toString(), user.getUid());
                 db.insertVaccineRecord(rec);
-                initListView();
+                startActivity(new Intent(VaccinationActivity.this, VaccinationActivity.class));
+                finish();
                 dialog.dismiss();
             });
             dialog.show();
@@ -201,12 +203,14 @@ public class VaccinationActivity extends AppCompatActivity {
                             schedule.setDate(scheDate.getText().toString());
                             db.updateVaccineSchedule(schedule);
                             dialog.dismiss();
-                            initListView();
+                            startActivity(new Intent(VaccinationActivity.this, VaccinationActivity.class));
+                            finish();
                         });
                         delete.setOnClickListener(v -> {
                             db.deleteVaccineSchedule(schedule.getKey());
                             dialog.dismiss();
-                            initListView();
+                            startActivity(new Intent(VaccinationActivity.this, VaccinationActivity.class));
+                            finish();
                         });
                         dialog.show();
                     });
@@ -273,12 +277,14 @@ public class VaccinationActivity extends AppCompatActivity {
                             record.setDate(vacDate.getText().toString());
                             db.updateVaccineRecord(record);
                             dialog.dismiss();
-                            initListView();
+                            startActivity(new Intent(VaccinationActivity.this, VaccinationActivity.class));
+                            finish();
                         });
                         delete.setOnClickListener(v -> {
                             db.deleteVaccineRecord(record.getKey());
                             dialog.dismiss();
-                            initListView();
+                            startActivity(new Intent(VaccinationActivity.this, VaccinationActivity.class));
+                            finish();
                         });
                         dialog.show();
                     });

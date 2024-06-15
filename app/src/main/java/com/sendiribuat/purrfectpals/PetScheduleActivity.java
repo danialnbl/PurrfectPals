@@ -2,6 +2,7 @@ package com.sendiribuat.purrfectpals;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -169,17 +170,19 @@ public class PetScheduleActivity extends AppCompatActivity {
                             datePickerDialog.show();
                         });
                         submit.setOnClickListener(v -> {
-                            schedule.setTitle(editLocation.getText().toString());
+                            schedule.setTitle(recEventTitle.getText().toString());
                             schedule.setPetName(editPetSchedule.getSelectedItem().toString());
                             schedule.setDate(recDate.getText().toString());
                             db.updatePetSchedule(schedule);
                             dialog.dismiss();
-                            initListView();
+                            startActivity(new Intent(PetScheduleActivity.this, PetScheduleActivity.class));
+                            finish();
                         });
                         delete.setOnClickListener(v -> {
                             db.deletePetSchedule(schedule.getKey());
                             dialog.dismiss();
-                            initListView();
+                            startActivity(new Intent(PetScheduleActivity.this, PetScheduleActivity.class));
+                            finish();
                         });
                         dialog.show();
                     });

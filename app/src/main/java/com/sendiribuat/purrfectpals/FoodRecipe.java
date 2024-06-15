@@ -75,7 +75,7 @@ public class FoodRecipe extends AppCompatActivity {
     }
 
     private void checkForRecipes() {
-        dbRef.addValueEventListener(new ValueEventListener() {
+        dbRef.orderByChild("userId").equalTo(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 recipeList.clear();

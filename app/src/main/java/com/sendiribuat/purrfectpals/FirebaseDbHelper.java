@@ -3,17 +3,31 @@ package com.sendiribuat.purrfectpals;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -21,10 +35,14 @@ public class FirebaseDbHelper {
     private FirebaseDatabase db;
     private FirebaseAuth mAuth;
     private DatabaseReference ref;
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
     private Context context;
     public FirebaseDbHelper(Context context) {
         db = FirebaseDatabase.getInstance(Constant.FIREBASE_DB_INSTANCE);
         mAuth = FirebaseAuth.getInstance();
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
         this.context = context;
     }
 
@@ -34,6 +52,10 @@ public class FirebaseDbHelper {
 
     public DatabaseReference getRef() {
         return ref;
+    }
+
+    public FirebaseStorage getStorage() {
+        return storage;
     }
 
     public boolean insertUser(User user, String userId, Activity activity) {
@@ -204,17 +226,55 @@ public class FirebaseDbHelper {
         });
     }
 
-    public void insertFeedTracking(FeedTrack feed) {
+    public void insertFeedTracking(FeedTrack feed, @Nullable Uri uri, OnFeedTrackingUploadListener listener) {
         ref = db.getReference("feed_tracking");
         String key = ref.push().getKey();
-        ref.child(key).setValue(feed).addOnCompleteListener(task -> {
-            if(task.isSuccessful()) {
-                Toast.makeText(context, "Successfully added feed tracking!", Toast.LENGTH_SHORT).show();
+        if (uri != null) {
+            StorageReference imagesRef = FirebaseStorage.getInstance().getReference().child("images/" + key);
+
+            try {
+                // Convert Uri to Bitmap
+                InputStream inputStream = context.getContentResolver().openInputStream(uri);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                bitmap = rotateBitmap(bitmap);
+
+                // Compress the Bitmap to 25% quality
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+                byte[] data = baos.toByteArray();
+
+                // Upload the compressed image
+                UploadTask uploadTask = imagesRef.putBytes(data);
+                uploadTask.addOnSuccessListener(taskSnapshot -> {
+                    ref.child(key).setValue(feed).addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(context, "Successfully added feed tracking!", Toast.LENGTH_SHORT).show();
+                            listener.onFeedTrackingUpload();
+                        } else {
+                            Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }).addOnFailureListener(exception -> {
+                    // Handle failed upload
+                    Toast.makeText(context, "Image upload failed: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(context, "Failed to convert Uri to Bitmap: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-            else {
-                Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        } else {
+            ref.child(key).setValue(feed).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Toast.makeText(context, "Successfully added feed tracking!", Toast.LENGTH_SHORT).show();
+                    listener.onFeedTrackingUpload();
+                } else {
+                    Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     public void updateFeedTracking(FeedTrack feed) {
@@ -234,8 +294,19 @@ public class FirebaseDbHelper {
         ref.child(key).removeValue();
     }
 
+    private Bitmap rotateBitmap(Bitmap bitmap) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+        Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        return rotatedBitmap;
+    }
+
     public interface OnFeedTrackingLoadedListener {
         void onFeedTrackingLoaded(ArrayList<FeedTrack> feedTracks);
+    }
+
+    public interface OnFeedTrackingUploadListener {
+        void onFeedTrackingUpload();
     }
 
     public interface OnPetNamesLoadedListener {

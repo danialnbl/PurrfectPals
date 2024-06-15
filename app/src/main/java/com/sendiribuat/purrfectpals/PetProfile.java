@@ -1,5 +1,6 @@
 package com.sendiribuat.purrfectpals;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class PetProfile  extends AppCompatActivity {
@@ -115,6 +117,20 @@ public class PetProfile  extends AppCompatActivity {
             EditText illness = dialog.findViewById(R.id.inputIllness);
             EditText illDate = dialog.findViewById(R.id.inputIllnessDate);
             Button save = dialog.findViewById(R.id.saveMedicalBtn);
+            illDate.setOnClickListener(v1 -> {
+                // Open DatePickerDialog
+                final Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(PetProfile.this,
+                        (view1, selectedYear, selectedMonth, selectedDay) -> {
+                            // Set selected date to EditText
+                            illDate.setText(selectedYear + "-" + (selectedMonth + 1) + "-" + selectedDay);
+                        }, year, month, day);
+                datePickerDialog.show();
+            });
             save.setOnClickListener(v1 -> {
                 List<PetProfileMedical> histList = pet.getMedicalHistory() != null ? pet.getMedicalHistory() : new ArrayList<>();
                 histList.add(new PetProfileMedical(illness.getText().toString(), illDate.getText().toString()));
